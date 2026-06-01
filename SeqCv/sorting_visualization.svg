@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <style>
+      text { font-family: Arial, sans-serif; }
+      .title { font-size: 24px; font-weight: bold; }
+      .label { font-size: 14px; }
+      .status { font-size: 16px; }
+    </style>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="500" fill="#1a1a2e"/>
+  
+  <!-- Title -->
+  <text x="400" y="40" text-anchor="middle" fill="#eee" class="title">Bubble Sort Visualization</text>
+  
+  <!-- Status text -->
+  <text id="status" x="400" y="70" text-anchor="middle" fill="#aaa" class="status">Click 'Start' to begin sorting</text>
+  
+  <!-- Bars container -->
+  <g id="bars-container" transform="translate(100, 120)"></g>
+  
+  <!-- Legend -->
+  <g transform="translate(100, 420)">
+    <rect x="0" y="0" width="20" height="20" fill="#e74c3c"/>
+    <text x="30" y="15" fill="#eee" class="label">Comparing</text>
+    
+    <rect x="120" y="0" width="20" height="20" fill="#2ecc71"/>
+    <text x="150" y="15" fill="#eee" class="label">Sorted</text>
+    
+    <rect x="220" y="0" width="20" height="20" fill="#3498db"/>
+    <text x="250" y="15" fill="#eee" class="label">Unsorted</text>
+  </g>
+  
+  <!-- Controls -->
+  <g transform="translate(100, 460)">
+    <rect id="btn-start" x="0" y="0" width="80" height="30" rx="5" fill="#3498db" cursor="pointer"/>
+    <text x="40" y="20" text-anchor="middle" fill="#fff" class="label" pointer-events="none">Start</text>
+    
+    <rect id="btn-reset" x="100" y="0" width="80" height="30" rx="5" fill="#9b59b6" cursor="pointer"/>
+    <text x="140" y="20" text-anchor="middle" fill="#fff" class="label" pointer-events="none">Reset</text>
+    
+    <text x="200" y="20" fill="#eee" class="label">Speed:</text>
+    <rect id="btn-slow" x="260" y="0" width="50" height="30" rx="5" fill="#e67e22" cursor="pointer"/>
+    <text x="285" y="20" text-anchor="middle" fill="#fff" class="label" pointer-events="none">Slow</text>
+    <rect id="btn-fast" x="320" y="0" width="50" height="30" rx="5" fill="#27ae60" cursor="pointer"/>
+    <text x="345" y="20" text-anchor="middle" fill="#fff" class="label" pointer-events="none">Fast</text>
+  </g>
+  
+  <!-- Step counter -->
+  <text id="step-count" x="600" y="490" fill="#eee" class="label">Steps: 0</text>
+  
+  <script type="text/javascript"><![CDATA[
+    // Data
+    const data = [45, 22, 68, 12, 89, 34, 56, 78, 5, 91, 28, 63];
+    let originalData = [...data];
+    let currentData = [...data];
+    let isRunning = false;
+    let speed = 300;
+    let steps = 0;
+    let abortSort = false;
+    
+    const barWidth = 50;
+    const barGap = 8;
+    const maxHeight = 200;
+    const maxValue = Math.max(...data);
+    
+    // Create bars
+    function createBars() {
+      const container = document.getElementById('bars-container');
+      container.innerHTML = '';
+      
+      currentData.forEach((value, index) => {
+        const height = (value / maxValue) * maxHeight;
+        const x = index * (barWidth + barGap);
+        const y = maxHeight - height;
+        
+        const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        g.setAttribute('class', 'bar-group');
+        g.setAttribute('data-index', index);
+        
+        const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        rect.setAttribute('x', x);
+        rect.setAttribute('y', y);
+        rect.setAttribute('width', barWidth);
+        rect.setAttribute('height', height);
+        rect.setAttribute('fill', '#3498db');
+        rect.setAttribute('rx', 4);
+        rect.setAttribute('id', 'bar-' + index);
+        
+        const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        text.setAttribute('x', x + barWidth / 2);
+        text.setAttribute('y', maxHeight + 20);
+        text.setAttribute('text-anchor', 'middle');
+        text.setAttribute('fill', '#eee');
+        text.setAttribute('class', 'label');
+        text.textContent = value;
+        
+        g.appendChild(rect);
+        g.appendChild(text);
+        container.appendChild(g);
+      });
+    }
+    
+    function updateBarColor(index, color) {
+      const bar = document.getElementById('bar-' + index);
+      if (bar) bar.setAttribute('fill', color);
+    }
+    
+    function updateStatus(text) {
+      document.getElementById('status').textContent = text;
+    }
+    
+    function updateStepCount() {
+      document.getElementById('step-count').textContent = 'Steps: ' + steps;
+    }
+    
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+    
+    async function bubbleSort() {
+      const n = currentData.length;
+      
+      for (let i = 0; i < n - 1 && !abortSort; i++) {
+        for (let j = 0; j < n - i - 1 && !abortSort; j++) {
+          // Highlight comparing bars
+          updateBarColor(j, '#e74c3c');
+          updateBarColor(j + 1, '#e74c3c');
+          updateStatus('Comparing ' + currentData[j] + ' and ' + currentData[j + 1]);
+          await sleep(speed);
+          
+          if (currentData[j] > currentData[j + 1]) {
+            // Swap
+            updateStatus(currentData[j] + ' > ' + currentData[j + 1] + ' → Swapping!');
+            await sleep(speed / 2);
+            
+            const temp = currentData[j];
+            currentData[j] = currentData[j + 1];
+            currentData[j + 1] = temp;
+            steps++;
+            updateStepCount();
+            
+            // Re-render bars
+            createBars();
+            
+            // Keep highlight on swapped positions
+            updateBarColor(j, '#f39c12');
+            updateBarColor(j + 1, '#f39c12');
+          } else {
+            updateStatus(currentData[j] + ' ≤ ' + currentData[j + 1] + ' → No swap needed');
+          }
+          
+          await sleep(speed / 2);
+          
+          // Reset colors
+          updateBarColor(j, '#3498db');
+          updateBarColor(j + 1, '#3498db');
+        }
+        
+        // Mark as sorted
+        updateBarColor(n - i - 1, '#2ecc71');
+      }
+      
+      if (!abortSort) {
+        updateBarColor(0, '#2ecc71');
+        updateStatus('Sorting complete! ✓');
+        isRunning = false;
+      }
+    }
+    
+    // Controls
+    document.getElementById('btn-start').addEventListener('click', async () => {
+      if (!isRunning) {
+        isRunning = true;
+        abortSort = false;
+        if (steps === 0) {
+          await bubbleSort();
+        } else {
+          // Reset and start fresh
+          reset();
+          await sleep(100);
+          await bubbleSort();
+        }
+      }
+    });
+    
+    function reset() {
+      abortSort = true;
+      isRunning = false;
+      currentData = [...originalData];
+      steps = 0;
+      updateStepCount();
+      updateStatus('Click \'Start\' to begin sorting');
+      createBars();
+    }
+    
+    document.getElementById('btn-reset').addEventListener('click', reset);
+    
+    document.getElementById('btn-slow').addEventListener('click', () => {
+      speed = 500;
+      updateStatus('Speed set to Slow');
+    });
+    
+    document.getElementById('btn-fast').addEventListener('click', () => {
+      speed = 150;
+      updateStatus('Speed set to Fast');
+    });
+    
+    // Initialize
+    createBars();
+  ]]></script>
+</svg>

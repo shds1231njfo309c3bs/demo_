@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="650" viewBox="0 0 1000 650">
+  <defs>
+    <style>
+      .title { font: bold 28px Arial, sans-serif; fill: #263238; }
+      .subtitle { font: 16px Arial, sans-serif; fill: #546e7a; }
+      .panel-title { font: bold 18px Arial, sans-serif; fill: #263238; text-anchor: middle; }
+      .axis-label { font: 13px Arial, sans-serif; fill: #455a64; }
+      .tick-label { font: 11px Arial, sans-serif; fill: #607d8b; }
+      .formula { font: 15px "Courier New", monospace; fill: #263238; }
+      .math { font: italic 15px serif; fill: #263238; }
+      .bullet { font: 12px Arial, sans-serif; fill: #37474f; }
+      .caption { font: 11px Arial, sans-serif; fill: #78909c; text-anchor: middle; }
+    </style>
+    <filter id="shadow" x="-0.1" y="-0.1" width="1.2" height="1.2">
+      <feDropShadow dx="1.5" dy="2" stdDeviation="1.5" flood-color="#263238" flood-opacity="0.15" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1000" height="650" fill="#f8f9fa" />
+
+  <!-- Top title and subtitle -->
+  <text x="500" y="38" class="title" text-anchor="middle" filter="url(#shadow)">The Fourier Transform</text>
+  <text x="500" y="62" class="subtitle" text-anchor="middle">Decomposing Signals: From Time Domain to Frequency Spectrum</text>
+
+  <!-- Left panel: Time Domain -->
+  <!-- Panel background -->
+  <rect x="40" y="95" width="410" height="225" rx="6" fill="#e3f2fd" stroke="#81d4fa" stroke-width="3" />
+
+  <!-- Panel title -->
+  <text x="245" y="122" class="panel-title">Time Domain Signal s(t)</text>
+
+  <!-- Axes -->
+  <!-- x-axis (time) -->
+  <line x1="70" y1="270" x2="410" y2="270" stroke="#455a64" stroke-width="2" />
+  <!-- y-axis (amplitude) -->
+  <line x1="80" y1="125" x2="80" y2="285" stroke="#455a64" stroke-width="2" />
+
+  <!-- Axis labels -->
+  <text x="425" y="272" class="axis-label">Time (t)</text>
+  <text x="55" y="118" class="axis-label" transform="rotate(-90 55 118)">Amplitude</text>
+
+  <!-- Ticks and labels for time axis -->
+  <g>
+    <!-- Ticks at intervals -->
+    <line x1="110" y1="270" x2="110" y2="275" stroke="#455a64" stroke-width="1.5" />
+    <line x1="170" y1="270" x2="170" y2="275" stroke="#455a64" stroke-width="1.5" />
+    <line x1="230" y1="270" x2="230" y2="275" stroke="#455a64" stroke-width="1.5" />
+    <line x1="290" y1="270" x2="290" y2="275" stroke="#455a64" stroke-width="1.5" />
+    <line x1="350" y1="270" x2="350" y2="275" stroke="#455a64" stroke-width="1.5" />
+    <line x1="410" y1="270" x2="410" y2="275" stroke="#455a64" stroke-width="1.5" />
+    <!-- Labels -->
+    <text x="105" y="288" class="tick-label" text-anchor="middle">0</text>
+    <text x="165" y="288" class="tick-label" text-anchor="middle">0.2</text>
+    <text x="225" y="288" class="tick-label" text-anchor="middle">0.4</text>
+    <text x="285" y="288" class="tick-label" text-anchor="middle">0.6</text>
+    <text x="345" y="288" class="tick-label" text-anchor="middle">0.8</text>
+    <text x="410" y="288" class="tick-label" text-anchor="middle">1.0 s</text>
+  </g>
+
+  <!-- Ticks for amplitude axis -->
+  <g>
+    <line x1="75" y1="190" x2="80" y2="190" stroke="#455a64" stroke-width="1.5" />
+    <line x1="75" y1="235" x2="80" y2="235" stroke="#455a64" stroke-width="1.5" />
+    <line x1="75" y1="280" x2="80" y2="280" stroke="#455a64" stroke-width="1.5" />
+    <text x="63" y="195" class="tick-label" text-anchor="end">1</text>
+    <text x="63" y="240" class="tick-label" text-anchor="end">0</text>
+    <text x="63" y="284" class="tick-label" text-anchor="end">-1</text>
+  </g>
+
+  <!-- Grid lines (light) -->
+  <g opacity="0.6">
+    <line x1="110" y1="130" x2="110" y2="270" stroke="#b0bec5" stroke-width="1" />
+    <line x1="170" y1="130" x2="170" y2="270" stroke="#b0bec5" stroke-width="1" />
+    <line x1="230" y1="130" x2="230" y2="270" stroke="#b0bec5" stroke-width="1" />
+    <line x1="290" y1="130" x2="290" y2="270" stroke="#b0bec5" stroke-width="1" />
+    <line x1="350" y1="130" x2="350" y2="270" stroke="#b0bec5" stroke-width="1" />
+    <line x1="80" y1="190" x2="420" y2="190" stroke="#b0bec5" stroke-width="1" />
+  </g>
+
+  <!-- Individual component waves (faint, dotted) - 2Hz, 5Hz, 7Hz approx scaled for visual -->
+  <!-- 2Hz component (low freq, lower amp) dotted green-blue -->
+  <path d="M 80,225 
+    C 95,215 110,175 125,165 
+    C 140,155 155,195 170,225 
+    C 185,255 200,235 215,200 
+    C 230,165 245,175 260,225 
+    C 275,275 290,245 305,190 
+    C 320,135 335,175 350,225 
+    C 365,275 380,255 400,205" 
+    fill="transparent" stroke="#4fc3f7" stroke-width="1.5" stroke-dasharray="2,1.5" opacity="0.65" />
+
+  <!-- 5Hz component (medium freq) dotted orange-ish -->
+  <path d="M 80,225 
+    C 90,200 100,265 118,225 
+    C 135,185 150,190 165,255 
+    C 180,225 195,165 212,225 
+    C 230,285 245,225 260,195 
+    C 275,160 292,205 310,225 
+    C 327,245 340,205 360,225 
+    C 378,245 390,200 400,225" 
+    fill="transparent" stroke="#ff9800" stroke-width="1" stroke-dasharray="2,2" opacity="0.55" />
+
+  <!-- 7Hz component (higher freq) dotted purple-blue -->
+  <path d="M 80,225 
+    C 88,210 98,245 112,225 
+    C 125,205 137,210 150,245 
+    C 162,225 175,195 188,225 
+    C 200,255 213,225 226,190 
+    C 239,210 253,225 265,260 
+    C 277,225 290,205 302,225 
+    C 315,245 327,225 340,195 
+    C 353,225 367,240 380,225 
+    C 393,210 400,220 410,225" 
+    fill="transparent" stroke="#7c4dff" stroke-width="1" stroke-dasharray="1.5,2" opacity="0.6" />
+
+  <!-- Composite waveform (thick, prominent blue) - sum of above approx -->
+  <!-- Points sampled to mimic realistic composite (approx sum of sin(2π*2t)+0.6*sin(2π*5t)+1.2*sin(2π*7t)) scaled/offset -->
+  <path d="M 80,225 
+    C 91,208 105,178 118,165 
+    C 130,155 143,188 155,225 
+    C 168,267 181,252 193,212 
+    C 205,168 218,177 230,225 
+    C 242,273 255,246 267,190 
+    C 280,137 292,167 305,225 
+    C 317,280 330,245 342,188 
+    C 355,142 367,178 380,225 
+    C 392,265 400,240 410,205" 
+    fill="transparent" stroke="#1565c0" stroke-width="3.5" />
+
+  <!-- Legend for time domain -->
+  <rect x="340" y="125" width="92" height="52" rx="3" fill="#ffffff" stroke="#81d4fa" stroke-width="1" />
+  <text x="355" y="140" class="caption" text-anchor="start" font-size="9.5">Composite (thick)</text>
+  <line x1="355" y1="147" x2="387" y2="147" stroke="#1565c0" stroke-width="3" />
+  <text x="355" y="161" class="caption" text-anchor="start" font-size="9.5">Components (faint)</text>
+  <line x1="355" y1="167" x2="387" y2="167" stroke="#4fc3f7" stroke-width="1.5" stroke-dasharray="2,1.5" />
+
+  <!-- Right panel: Frequency Spectrum -->
+  <!-- Panel background -->
+  <rect x="520" y="95" width="425" height="225" rx="6" fill="#fff3e0" stroke="#ffcc80" stroke-width="3" />
+
+  <!-- Panel title -->
+  <text x="735" y="122" class="panel-title">Frequency Spectrum |F(ω)|</text>
+
+  <!-- Axes -->
+  <!-- x-axis (frequency) -->
+  <line x1="555" y1="270" x2="910" y2="270" stroke="#455a64" stroke-width="2" />
+  <!-- y-axis (magnitude) -->
+  <line x1="565" y1="125" x2="565" y2="285" stroke="#455a64" stroke-width="2" />
+
+  <!-- Axis labels -->
+  <text x="925" y="272" class="axis-label">Frequency (Hz)</text>
+  <text x="545" y="118" class="axis-label" transform="rotate(-90 545 118)">Magnitude</text>
+
+  <!-- Frequency ticks and labels -->
+  <g>
+    <line x1="610" y1="270" x2="610" y2="275" stroke="#455a64" />
+    <line x1="680" y1="270" x2="680" y2="275" stroke="#455a64" />
+    <line x1="750" y1="270" x2="750" y2="275" stroke="#455a64" />
+    <line x1="820" y1="270" x2="820" y2="275" stroke="#455a64" />
+    <line x1="890" y1="270" x2="890" y2="275" stroke="#455a64" />
+    <text x="610" y="287" class="tick-label" text-anchor="middle">0</text>
+    <text x="680" y="287" class="tick-label" text-anchor="middle">2</text>
+    <text x="750" y="287" class="tick-label" text-anchor="middle">5</text>
+    <text x="820" y="287" class="tick-label" text-anchor="middle">7</text>
+    <text x="890" y="287" class="tick-label" text-anchor="middle">10 Hz</text>
+  </g>
+
+  <!-- Magnitude ticks -->
+  <g>
+    <line x1="560" y1="190" x2="565" y2="190" stroke="#455a64" />
+    <line x1="560" y1="235" x2="565" y2="235" stroke="#455a64" />
+    <text x="548" y="195" class="tick-label" text-anchor="end">2</text>
+    <text x="548" y="240" class="tick-label" text-anchor="end">1</text>
+    <text x="548" y="285" class="tick-label" text-anchor="end">0</text>
+  </g>
+
+  <!-- Spectrum bars (heights proportional to amplitudes: ~0.8 at 2Hz, ~1.1 at 5Hz, ~1.7 at 7Hz) -->
+  <!-- Bar at ~2Hz, height scaled to reach ~1.6 from baseline 270 y= ~0.8*60 = 48px height adjustment -->
+  <rect x="595" y="222" width="32" height="48" rx="2" fill="#ff9800" stroke="#e86a00" stroke-width="2" />
+  <text x="611" y="212" class="tick-label" font-weight="bold" text-anchor="middle">2Hz</text>
+
+  <!-- Bar at ~5Hz, height ~1.1*55 =~60px upwards from 270 -->
+  <rect x="717" y="210" width="32" height="60" rx="2" fill="#ff9800" stroke="#e86a00" stroke-width="2" />
+  <text x="733" y="200" class="tick-label" font-weight="bold" text-anchor="middle">5Hz</text>
+
+  <!-- Bar at ~7Hz, highest ~1.7*55 =~94px -->
+  <rect x="793" y="176" width="32" height="94" rx="2" fill="#ff9800" stroke="#e86a00" stroke-width="2" />
+  <text x="809" y="166" class="tick-label" font-weight="bold" text-anchor="middle">7Hz</text>
+
+  <!-- Connecting labels showing correspondence -->
+  <!-- Arrows / lines from time components to freq peaks (simplified visual mapping) -->
+  <!-- 2Hz dashed correspondence -->
+  <line x1="125" y1="165" x2="610" y2="215" stroke="#4fc3f7" stroke-width="1" stroke-dasharray="2,2" opacity="0.45" />
+  <!-- 5Hz correspondence -->
+  <line x1="255" y1="175" x2="735" y2="203" stroke="#ff9800" stroke-width="1" stroke-dasharray="2,2" opacity="0.45" />
+  <!-- 7Hz correspondence (stronger) -->
+  <line x1="368" y1="162" x2="805" y2="170" stroke="#7c4dff" stroke-width="1.5" stroke-dasharray="1.5,2" opacity="0.55" />
+
+  <!-- Central transformation indicator -->
+  <!-- Large arrow + text -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="7" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#455a64" />
+    </marker>
+  </defs>
+  <line x1="470" y1="185" x2="515" y2="185" stroke="#455a64" stroke-width="3.5" marker-end="url(#arrow)" />
+  <text x="493" y="173" class="formula" font-size="17" text-anchor="middle" fill="#263238">Fourier</text>
+  <text x="493" y="191" class="formula" font-size="17" text-anchor="middle" fill="#263238">Transform</text>
+
+  <!-- Mathematical formulas section (centered below panels) -->
+  <!-- Box for formulas -->
+  <rect x="55" y="355" width="885" height="105" rx="8" fill="#f1f5f9" stroke="#90a4ae" stroke-width="2" />
+
+  <text x="75" y="378" class="formula" font-size="13.5" fill="#455a64">FORWARD FOURIER TRANSFORM</text>
+  <text x="75" y="400" class="math" font-size="17">F(ω) = ∫_{-∞}^{∞} s(t) ⋅ e^{-iωt} dt</text>
+  <text x="75" y="422" class="formula" font-size="13" fill="#455a64">Gives complex amplitudes for each frequency ω = 2πf</text>
+
+  <text x="520" y="378" class="formula" font-size="13.5" fill="#455a64">INVERSE FOURIER TRANSFORM</text>
+  <text x="520" y="400" class="math" font-size="17">s(t) = (1/2π) ∫_{-∞}^{∞} F(ω) ⋅ e^{iωt} dω</text>
+  <text x="520" y="422" class="formula" font-size="13" fill="#455a64">Reconstructs original signal from its frequencies</text>
+
+  <!-- Key insights bullets (right side, balanced with formulas) -->
+  <text x="535" y="465" class="formula" font-size="15" font-weight="600" fill="#263238">Why It Matters</text>
+  
+  <text x="545" y="488" class="bullet">• Any complex signal is a sum of pure sinusoids (sines/cosines) of different frequencies, amplitudes, and phases.</text>
+  <text x="545" y="508" class="bullet">• The Fourier Transform decomposes a time signal into its constituent frequency components.</text>
+  <text x="545" y="528" class="bullet">• Peaks in the frequency spectrum reveal which frequencies are present and their strengths.</text>
+  <text x="545" y="548" class="bullet">• Enables filtering, compression, spectral analysis, and solving differential equations efficiently.</text>
+
+  <!-- Footer caption -->
+  <text x="500" y="605" class="caption" font-size="10.5">Static educational SVG • Pedagogically designed to illustrate the core idea behind Fourier analysis • Frequencies shown: approx. 2 Hz, 5 Hz, 7 Hz components</text>
+
+</svg>

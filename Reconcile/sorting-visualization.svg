@@ -1,0 +1,579 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" width="900" height="620" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f0c29"/>
+      <stop offset="50%" style="stop-color:#302b63"/>
+      <stop offset="100%" style="stop-color:#24243e"/>
+    </linearGradient>
+    <linearGradient id="barDefault" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#a78bfa"/>
+      <stop offset="100%" style="stop-color:#6d28d9"/>
+    </linearGradient>
+    <linearGradient id="barCompare" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#fbbf24"/>
+      <stop offset="100%" style="stop-color:#d97706"/>
+    </linearGradient>
+    <linearGradient id="barSwap" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f87171"/>
+      <stop offset="100%" style="stop-color:#dc2626"/>
+    </linearGradient>
+    <linearGradient id="barSorted" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#34d399"/>
+      <stop offset="100%" style="stop-color:#059669"/>
+    </linearGradient>
+    <linearGradient id="barPivot" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#fb923c"/>
+      <stop offset="100%" style="stop-color:#ea580c"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="620" fill="url(#bgGrad)"/>
+
+  <!-- Title -->
+  <text x="450" y="38" text-anchor="middle" fill="white" font-size="24" font-weight="bold" letter-spacing="2" filter="url(#glow)">SORTING ALGORITHM VISUALIZER</text>
+  <line x1="150" y1="48" x2="750" y2="48" stroke="#a78bfa" stroke-width="1" opacity="0.5"/>
+
+  <!-- Algorithm Tabs -->
+  <g id="tab-bubble" cursor="pointer">
+    <rect x="30" y="58" width="120" height="32" rx="6" fill="#6d28d9" opacity="1" id="tab-bubble-bg"/>
+    <text x="90" y="79" text-anchor="middle" fill="white" font-size="12" font-weight="bold">BUBBLE SORT</text>
+  </g>
+  <g id="tab-selection" cursor="pointer">
+    <rect x="158" y="58" width="130" height="32" rx="6" fill="#1e1b4b" opacity="0.7" id="tab-selection-bg"/>
+    <text x="223" y="79" text-anchor="middle" fill="#a0a0c0" font-size="12" font-weight="bold">SELECTION SORT</text>
+  </g>
+  <g id="tab-insertion" cursor="pointer">
+    <rect x="296" y="58" width="120" height="32" rx="6" fill="#1e1b4b" opacity="0.7" id="tab-insertion-bg"/>
+    <text x="356" y="79" text-anchor="middle" fill="#a0a0c0" font-size="12" font-weight="bold">INSERTION SORT</text>
+  </g>
+  <g id="tab-merge" cursor="pointer">
+    <rect x="424" y="58" width="110" height="32" rx="6" fill="#1e1b4b" opacity="0.7" id="tab-merge-bg"/>
+    <text x="479" y="79" text-anchor="middle" fill="#a0a0c0" font-size="12" font-weight="bold">MERGE SORT</text>
+  </g>
+  <g id="tab-quick" cursor="pointer">
+    <rect x="542" y="58" width="110" height="32" rx="6" fill="#1e1b4b" opacity="0.7" id="tab-quick-bg"/>
+    <text x="597" y="79" text-anchor="middle" fill="#a0a0c0" font-size="12" font-weight="bold">QUICK SORT</text>
+  </g>
+
+  <!-- Controls -->
+  <g id="btn-play" cursor="pointer" filter="url(#shadow)">
+    <rect x="660" y="58" width="80" height="32" rx="16" fill="#059669"/>
+    <text x="700" y="79" text-anchor="middle" fill="white" font-size="13" font-weight="bold">▶ PLAY</text>
+  </g>
+  <g id="btn-reset" cursor="pointer" filter="url(#shadow)">
+    <rect x="750" y="58" width="80" height="32" rx="16" fill="#374151"/>
+    <text x="790" y="79" text-anchor="middle" fill="white" font-size="13" font-weight="bold">↺ RESET</text>
+  </g>
+
+  <!-- Speed Control -->
+  <text x="660" y="108" fill="#a0a0c0" font-size="11">Speed:</text>
+  <g id="btn-slow" cursor="pointer">
+    <rect x="700" y="96" width="38" height="18" rx="4" fill="#1e1b4b" id="btn-slow-bg"/>
+    <text x="719" y="109" text-anchor="middle" fill="#a0a0c0" font-size="10">Slow</text>
+  </g>
+  <g id="btn-fast" cursor="pointer">
+    <rect x="742" y="96" width="38" height="18" rx="4" fill="#4c1d95" id="btn-fast-bg"/>
+    <text x="761" y="109" text-anchor="middle" fill="white" font-size="10">Fast</text>
+  </g>
+  <g id="btn-vfast" cursor="pointer">
+    <rect x="784" y="96" width="46" height="18" rx="4" fill="#1e1b4b" id="btn-vfast-bg"/>
+    <text x="807" y="109" text-anchor="middle" fill="#a0a0c0" font-size="10">V.Fast</text>
+  </g>
+
+  <!-- Main Visualization Area -->
+  <rect x="20" y="120" width="860" height="340" rx="10" fill="#0d0b1e" opacity="0.8" stroke="#3730a3" stroke-width="1"/>
+
+  <!-- Info Panel -->
+  <rect x="20" y="470" width="860" height="140" rx="10" fill="#0d0b1e" opacity="0.8" stroke="#3730a3" stroke-width="1"/>
+
+  <!-- Stats Labels -->
+  <text x="50" y="496" fill="#6d28d9" font-size="11" font-weight="bold">COMPARISONS</text>
+  <text x="50" y="516" fill="white" font-size="22" font-weight="bold" id="stat-comparisons">0</text>
+
+  <text x="200" y="496" fill="#6d28d9" font-size="11" font-weight="bold">SWAPS</text>
+  <text x="200" y="516" fill="white" font-size="22" font-weight="bold" id="stat-swaps">0</text>
+
+  <text x="330" y="496" fill="#6d28d9" font-size="11" font-weight="bold">TIME COMPLEXITY</text>
+  <text x="330" y="516" fill="#fbbf24" font-size="18" font-weight="bold" id="stat-complexity">O(n²)</text>
+
+  <text x="530" y="496" fill="#6d28d9" font-size="11" font-weight="bold">SPACE COMPLEXITY</text>
+  <text x="530" y="516" fill="#34d399" font-size="18" font-weight="bold" id="stat-space">O(1)</text>
+
+  <text x="700" y="496" fill="#6d28d9" font-size="11" font-weight="bold">STATUS</text>
+  <text x="700" y="516" fill="white" font-size="14" font-weight="bold" id="stat-status">Ready</text>
+
+  <!-- Description -->
+  <text x="50" y="545" fill="#c4b5fd" font-size="12" id="desc-line1">Bubble Sort repeatedly steps through the list, compares adjacent elements</text>
+  <text x="50" y="562" fill="#c4b5fd" font-size="12" id="desc-line2">and swaps them if they are in the wrong order. The pass through the list</text>
+  <text x="50" y="579" fill="#c4b5fd" font-size="12" id="desc-line3">is repeated until no swaps are needed, indicating that the list is sorted.</text>
+
+  <!-- Legend -->
+  <rect x="50" y="595" width="14" height="14" rx="3" fill="url(#barDefault)"/>
+  <text x="70" y="606" fill="#a0a0c0" font-size="11">Unsorted</text>
+  <rect x="160" y="595" width="14" height="14" rx="3" fill="url(#barCompare)"/>
+  <text x="180" y="606" fill="#a0a0c0" font-size="11">Comparing</text>
+  <rect x="280" y="595" width="14" height="14" rx="3" fill="url(#barSwap)"/>
+  <text x="300" y="606" fill="#a0a0c0" font-size="11">Swapping</text>
+  <rect x="390" y="595" width="14" height="14" rx="3" fill="url(#barSorted)"/>
+  <text x="410" y="606" fill="#a0a0c0" font-size="11">Sorted</text>
+  <rect x="480" y="595" width="14" height="14" rx="3" fill="url(#barPivot)"/>
+  <text x="500" y="606" fill="#a0a0c0" font-size="11">Pivot</text>
+
+  <!-- The bars group -->
+  <g id="bars-group" transform="translate(30, 130)"></g>
+
+  <!-- Step description overlay -->
+  <text x="450" y="148" text-anchor="middle" fill="#e2e8f0" font-size="13" id="step-desc" opacity="0.9"></text>
+
+  <script><![CDATA[
+    // ─── Data & State ───────────────────────────────────────────────────
+    const ARRAY_SIZE = 20;
+    const BAR_AREA_W = 840;
+    const BAR_AREA_H = 300;
+    const BAR_GAP = 4;
+    const BAR_W = Math.floor((BAR_AREA_W - BAR_GAP * (ARRAY_SIZE + 1)) / ARRAY_SIZE);
+
+    let currentAlgo = 'bubble';
+    let animating = false;
+    let animTimeout = null;
+    let steps = [];
+    let stepIndex = 0;
+    let delay = 120;
+
+    const descriptions = {
+      bubble: [
+        "Bubble Sort repeatedly steps through the list, compares adjacent elements",
+        "and swaps them if they are in the wrong order. The pass through the list",
+        "is repeated until no swaps are needed, indicating that the list is sorted."
+      ],
+      selection: [
+        "Selection Sort divides the list into a sorted and unsorted region. It",
+        "repeatedly selects the smallest element from the unsorted region and",
+        "moves it to the end of the sorted region."
+      ],
+      insertion: [
+        "Insertion Sort builds the sorted array one element at a time by taking",
+        "each element and inserting it into its correct position among the",
+        "previously sorted elements."
+      ],
+      merge: [
+        "Merge Sort divides the array in half recursively, sorts each half,",
+        "then merges them back together. It uses a divide-and-conquer strategy",
+        "guaranteeing O(n log n) performance in all cases."
+      ],
+      quick: [
+        "Quick Sort selects a pivot element and partitions the array around it.",
+        "Elements smaller than the pivot go left, larger go right. It then",
+        "recursively sorts the sub-arrays on each side of the pivot."
+      ]
+    };
+
+    const complexities = {
+      bubble: { time: 'O(n²)', space: 'O(1)' },
+      selection: { time: 'O(n²)', space: 'O(1)' },
+      insertion: { time: 'O(n²)', space: 'O(1)' },
+      merge: { time: 'O(n log n)', space: 'O(n)' },
+      quick: { time: 'O(n log n)', space: 'O(log n)' }
+    };
+
+    // ─── Generate random array ───────────────────────────────────────────
+    function generateArray() {
+      const arr = [];
+      for (let i = 0; i < ARRAY_SIZE; i++) {
+        arr.push(Math.floor(Math.random() * 90) + 10);
+      }
+      return arr;
+    }
+
+    let baseArray = generateArray();
+
+    // ─── SVG Helpers ────────────────────────────────────────────────────
+    const svgNS = "http://www.w3.org/2000/svg";
+
+    function getFill(state) {
+      switch(state) {
+        case 'compare': return 'url(#barCompare)';
+        case 'swap':    return 'url(#barSwap)';
+        case 'sorted':  return 'url(#barSorted)';
+        case 'pivot':   return 'url(#barPivot)';
+        default:        return 'url(#barDefault)';
+      }
+    }
+
+    function renderBars(arr, highlights, sortedSet) {
+      const g = document.getElementById('bars-group');
+      while (g.firstChild) g.removeChild(g.firstChild);
+
+      const maxVal = Math.max(...arr);
+
+      arr.forEach((val, i) => {
+        const barH = Math.floor((val / maxVal) * (BAR_AREA_H - 40));
+        const x = BAR_GAP + i * (BAR_W + BAR_GAP);
+        const y = BAR_AREA_H - barH - 10;
+
+        let state = 'default';
+        if (sortedSet && sortedSet.has(i)) state = 'sorted';
+        if (highlights) {
+          if (highlights.pivot === i) state = 'pivot';
+          else if (highlights.swap && (highlights.swap[0] === i || highlights.swap[1] === i)) state = 'swap';
+          else if (highlights.compare && (highlights.compare[0] === i || highlights.compare[1] === i)) state = 'compare';
+        }
+
+        // Bar
+        const rect = document.createElementNS(svgNS, 'rect');
+        rect.setAttribute('x', x);
+        rect.setAttribute('y', y);
+        rect.setAttribute('width', BAR_W);
+        rect.setAttribute('height', barH);
+        rect.setAttribute('rx', '3');
+        rect.setAttribute('fill', getFill(state));
+        if (state === 'compare' || state === 'swap' || state === 'pivot') {
+          rect.setAttribute('filter', 'url(#glow)');
+        }
+        g.appendChild(rect);
+
+        // Value label
+        const txt = document.createElementNS(svgNS, 'text');
+        txt.setAttribute('x', x + BAR_W / 2);
+        txt.setAttribute('y', y - 4);
+        txt.setAttribute('text-anchor', 'middle');
+        txt.setAttribute('fill', state === 'default' ? '#c4b5fd' : 'white');
+        txt.setAttribute('font-size', '10');
+        txt.setAttribute('font-weight', 'bold');
+        txt.textContent = val;
+        g.appendChild(txt);
+
+        // Index label
+        const idx = document.createElementNS(svgNS, 'text');
+        idx.setAttribute('x', x + BAR_W / 2);
+        idx.setAttribute('y', BAR_AREA_H - 2);
+        idx.setAttribute('text-anchor', 'middle');
+        idx.setAttribute('fill', '#6b7280');
+        idx.setAttribute('font-size', '9');
+        idx.textContent = i;
+        g.appendChild(idx);
+      });
+    }
+
+    // ─── Sorting Algorithms → Steps ──────────────────────────────────────
+    function bubbleSortSteps(arr) {
+      const a = [...arr];
+      const steps = [];
+      const sorted = new Set();
+      let comps = 0, swps = 0;
+
+      for (let i = 0; i < a.length; i++) {
+        let swapped = false;
+        for (let j = 0; j < a.length - i - 1; j++) {
+          comps++;
+          steps.push({ arr: [...a], highlights: { compare: [j, j+1] }, sorted: new Set(sorted), comps, swps, desc: `Comparing [${j}]=${a[j]} with [${j+1}]=${a[j+1]}` });
+          if (a[j] > a[j+1]) {
+            [a[j], a[j+1]] = [a[j+1], a[j]];
+            swps++;
+            swapped = true;
+            steps.push({ arr: [...a], highlights: { swap: [j, j+1] }, sorted: new Set(sorted), comps, swps, desc: `Swapping! [${j}] ↔ [${j+1}]` });
+          }
+        }
+        sorted.add(a.length - 1 - i);
+        steps.push({ arr: [...a], highlights: {}, sorted: new Set(sorted), comps, swps, desc: `Element at position ${a.length - 1 - i} is now sorted ✓` });
+        if (!swapped) break;
+      }
+      // Mark all sorted
+      for (let k = 0; k < a.length; k++) sorted.add(k);
+      steps.push({ arr: [...a], highlights: {}, sorted: new Set(sorted), comps, swps, desc: `Array fully sorted! Total comparisons: ${comps}, Swaps: ${swps}` });
+      return steps;
+    }
+
+    function selectionSortSteps(arr) {
+      const a = [...arr];
+      const steps = [];
+      const sorted = new Set();
+      let comps = 0, swps = 0;
+
+      for (let i = 0; i < a.length; i++) {
+        let minIdx = i;
+        steps.push({ arr: [...a], highlights: { pivot: i }, sorted: new Set(sorted), comps, swps, desc: `Finding minimum in unsorted portion starting at [${i}]` });
+
+        for (let j = i + 1; j < a.length; j++) {
+          comps++;
+          steps.push({ arr: [...a], highlights: { compare: [minIdx, j], pivot: i }, sorted: new Set(sorted), comps, swps, desc: `Comparing current min [${minIdx}]=${a[minIdx]} with [${j}]=${a[j]}` });
+          if (a[j] < a[minIdx]) {
+            minIdx = j;
+            steps.push({ arr: [...a], highlights: { compare: [minIdx, j], pivot: i }, sorted: new Set(sorted), comps, swps, desc: `New minimum found at [${minIdx}]=${a[minIdx]}` });
+          }
+        }
+
+        if (minIdx !== i) {
+          [a[i], a[minIdx]] = [a[minIdx], a[i]];
+          swps++;
+          steps.push({ arr: [...a], highlights: { swap: [i, minIdx] }, sorted: new Set(sorted), comps, swps, desc: `Swapping minimum [${minIdx}] with position [${i}]` });
+        }
+        sorted.add(i);
+        steps.push({ arr: [...a], highlights: {}, sorted: new Set(sorted), comps, swps, desc: `Position [${i}] is sorted ✓` });
+      }
+      steps.push({ arr: [...a], highlights: {}, sorted: new Set(sorted), comps, swps, desc: `Array fully sorted! Comparisons: ${comps}, Swaps: ${swps}` });
+      return steps;
+    }
+
+    function insertionSortSteps(arr) {
+      const a = [...arr];
+      const steps = [];
+      const sorted = new Set([0]);
+      let comps = 0, swps = 0;
+
+      steps.push({ arr: [...a], highlights: {}, sorted: new Set(sorted), comps, swps, desc: `First element [0]=${a[0]} is trivially sorted` });
+
+      for (let i = 1; i < a.length; i++) {
+        let key = a[i];
+        let j = i - 1;
+        steps.push({ arr: [...a], highlights: { pivot: i }, sorted: new Set(sorted), comps, swps, desc: `Inserting element [${i}]=${key} into sorted portion` });
+
+        while (j >= 0 && a[j] > key) {
+          comps++;
+          steps.push({ arr: [...a], highlights: { compare: [j, j+1] }, sorted: new Set(sorted), comps, swps, desc: `[${j}]=${a[j]} > ${key}, shift right` });
+          a[j + 1] = a[j];
+          swps++;
+          steps.push({ arr: [...a], highlights: { swap: [j, j+1] }, sorted: new Set(sorted), comps, swps, desc: `Shifting [${j}]=${a[j]} to position [${j+1}]` });
+          j--;
+        }
+        if (j >= 0) comps++;
+        a[j + 1] = key;
+        sorted.add(i);
+        steps.push({ arr: [...a], highlights: { compare: [j+1, j+1] }, sorted: new Set(sorted), comps, swps, desc: `Placed ${key} at position [${j+1}] ✓` });
+      }
+      steps.push({ arr: [...a], highlights: {}, sorted: new Set(sorted), comps, swps, desc: `Array fully sorted! Comparisons: ${comps}, Swaps: ${swps}` });
+      return steps;
+    }
+
+    function mergeSortSteps(arr) {
+      const a = [...arr];
+      const steps = [];
+      const sorted = new Set();
+      let comps = 0, swps = 0;
+
+      function merge(arr, left, mid, right) {
+        const leftArr = arr.slice(left, mid + 1);
+        const rightArr = arr.slice(mid + 1, right + 1);
+        let i = 0, j = 0, k = left;
+
+        steps.push({ arr: [...arr], highlights: { compare: [left, right] }, sorted: new Set(sorted), comps, swps, desc: `Merging sub-arrays [${left}..${mid}] and [${mid+1}..${right}]` });
+
+        while (i < leftArr.length && j < rightArr.length) {
+          comps++;
+          steps.push({ arr: [...arr], highlights: { compare: [left + i, mid + 1 + j] }, sorted: new Set(sorted), comps, swps, desc: `Compare ${leftArr[i]} vs ${rightArr[j]}` });
+          if (leftArr[i] <= rightArr[j]) {
+            arr[k] = leftArr[i++];
+          } else {
+            arr[k] = rightArr[j++];
+            swps++;
+          }
+          steps.push({ arr: [...arr], highlights: { swap: [k, k] }, sorted: new Set(sorted), comps, swps, desc: `Placing ${arr[k]} at position [${k}]` });
+          k++;
+        }
+        while (i < leftArr.length) { arr[k++] = leftArr[i++]; }
+        while (j < rightArr.length) { arr[k++] = rightArr[j++]; }
+
+        for (let x = left; x <= right; x++) sorted.add(x);
+        steps.push({ arr: [...arr], highlights: {}, sorted: new Set(sorted), comps, swps, desc: `Sub-array [${left}..${right}] merged ✓` });
+      }
+
+      function mergeSort(arr, left, right) {
+        if (left >= right) {
+          sorted.add(left);
+          return;
+        }
+        const mid = Math.floor((left + right) / 2);
+        steps.push({ arr: [...arr], highlights: { compare: [left, right] }, sorted: new Set(sorted), comps, swps, desc: `Dividing [${left}..${right}] at mid=${mid}` });
+        mergeSort(arr, left, mid);
+        mergeSort(arr, mid + 1, right);
+        merge(arr, left, mid, right);
+      }
+
+      mergeSort(a, 0, a.length - 1);
+      for (let k = 0; k < a.length; k++) sorted.add(k);
+      steps.push({ arr: [...a], highlights: {}, sorted: new Set(sorted), comps, swps, desc: `Array fully sorted! Comparisons: ${comps}, Operations: ${swps}` });
+      return steps;
+    }
+
+    function quickSortSteps(arr) {
+      const a = [...arr];
+      const steps = [];
+      const sorted = new Set();
+      let comps = 0, swps = 0;
+
+      function partition(arr, low, high) {
+        const pivot = arr[high];
+        let i = low - 1;
+        steps.push({ arr: [...arr], highlights: { pivot: high }, sorted: new Set(sorted), comps, swps, desc: `Pivot = ${pivot} at [${high}]` });
+
+        for (let j = low; j < high; j++) {
+          comps++;
+          steps.push({ arr: [...arr], highlights: { compare: [j, high], pivot: high }, sorted: new Set(sorted), comps, swps, desc: `Compare [${j}]=${arr[j]} with pivot=${pivot}` });
+          if (arr[j] <= pivot) {
+            i++;
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+            swps++;
+            steps.push({ arr: [...arr], highlights: { swap: [i, j], pivot: high }, sorted: new Set(sorted), comps, swps, desc: `${arr[j]} ≤ pivot, swap [${i}] ↔ [${j}]` });
+          }
+        }
+        [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];
+        swps++;
+        steps.push({ arr: [...arr], highlights: { swap: [i+1, high] }, sorted: new Set(sorted), comps, swps, desc: `Place pivot at position [${i+1}]` });
+        return i + 1;
+      }
+
+      function quickSort(arr, low, high) {
+        if (low < high) {
+          const pi = partition(arr, low, high);
+          sorted.add(pi);
+          steps.push({ arr: [...arr], highlights: {}, sorted: new Set(sorted), comps, swps, desc: `Pivot at [${pi}]=${arr[pi]} is in correct position ✓` });
+          quickSort(arr, low, pi - 1);
+          quickSort(arr, pi + 1, high);
+        } else if (low === high) {
+          sorted.add(low);
+        }
+      }
+
+      quickSort(a, 0, a.length - 1);
+      for (let k = 0; k < a.length; k++) sorted.add(k);
+      steps.push({ arr: [...a], highlights: {}, sorted: new Set(sorted), comps, swps, desc: `Array fully sorted! Comparisons: ${comps}, Swaps: ${swps}` });
+      return steps;
+    }
+
+    // ─── Run Algorithm ───────────────────────────────────────────────────
+    function runAlgorithm() {
+      switch (currentAlgo) {
+        case 'bubble':    return bubbleSortSteps(baseArray);
+        case 'selection': return selectionSortSteps(baseArray);
+        case 'insertion': return insertionSortSteps(baseArray);
+        case 'merge':     return mergeSortSteps(baseArray);
+        case 'quick':     return quickSortSteps(baseArray);
+      }
+    }
+
+    // ─── Animation Loop ──────────────────────────────────────────────────
+    function playStep() {
+      if (stepIndex >= steps.length) {
+        setStatus('Done! ✓');
+        animating = false;
+        return;
+      }
+      const s = steps[stepIndex];
+      renderBars(s.arr, s.highlights, s.sorted);
+      document.getElementById('stat-comparisons').textContent = s.comps;
+      document.getElementById('stat-swaps').textContent = s.swps;
+      document.getElementById('step-desc').textContent = s.desc || '';
+      setStatus(`Step ${stepIndex + 1} / ${steps.length}`);
+      stepIndex++;
+      animTimeout = setTimeout(playStep, delay);
+    }
+
+    function startAnimation() {
+      if (animating) return;
+      if (stepIndex >= steps.length) resetVisualization();
+      animating = true;
+      setStatus('Running...');
+      playStep();
+    }
+
+    function stopAnimation() {
+      animating = false;
+      if (animTimeout) clearTimeout(animTimeout);
+    }
+
+    function resetVisualization() {
+      stopAnimation();
+      baseArray = generateArray();
+      steps = runAlgorithm();
+      stepIndex = 0;
+      renderBars(baseArray, {}, new Set());
+      document.getElementById('stat-comparisons').textContent = '0';
+      document.getElementById('stat-swaps').textContent = '0';
+      document.getElementById('step-desc').textContent = '';
+      setStatus('Ready');
+    }
+
+    function setStatus(s) {
+      document.getElementById('stat-status').textContent = s;
+    }
+
+    function updateComplexity() {
+      const c = complexities[currentAlgo];
+      document.getElementById('stat-complexity').textContent = c.time;
+      document.getElementById('stat-space').textContent = c.space;
+      const d = descriptions[currentAlgo];
+      document.getElementById('desc-line1').textContent = d[0];
+      document.getElementById('desc-line2').textContent = d[1];
+      document.getElementById('desc-line3').textContent = d[2];
+    }
+
+    function selectAlgo(name) {
+      const tabs = ['bubble','selection','insertion','merge','quick'];
+      tabs.forEach(t => {
+        const bg = document.getElementById('tab-'+t+'-bg');
+        bg.setAttribute('fill', '#1e1b4b');
+        bg.setAttribute('opacity', '0.7');
+        const txt = bg.parentElement.querySelector('text');
+        txt.setAttribute('fill', '#a0a0c0');
+      });
+      const selBg = document.getElementById('tab-'+name+'-bg');
+      selBg.setAttribute('fill', '#6d28d9');
+      selBg.setAttribute('opacity', '1');
+      selBg.parentElement.querySelector('text').setAttribute('fill', 'white');
+
+      currentAlgo = name;
+      updateComplexity();
+      resetVisualization();
+    }
+
+    function setDelay(d, btn) {
+      delay = d;
+      ['slow','fast','vfast'].forEach(b => {
+        const bg = document.getElementById('btn-'+b+'-bg');
+        bg.setAttribute('fill', '#1e1b4b');
+        bg.parentElement.querySelector('text').setAttribute('fill', '#a0a0c0');
+      });
+      document.getElementById('btn-'+btn+'-bg').setAttribute('fill', '#4c1d95');
+      document.getElementById('btn-'+btn+'-bg').parentElement.querySelector('text').setAttribute('fill', 'white');
+    }
+
+    // ─── Wire up events ──────────────────────────────────────────────────
+    document.getElementById('tab-bubble').addEventListener('click', () => selectAlgo('bubble'));
+    document.getElementById('tab-selection').addEventListener('click', () => selectAlgo('selection'));
+    document.getElementById('tab-insertion').addEventListener('click', () => selectAlgo('insertion'));
+    document.getElementById('tab-merge').addEventListener('click', () => selectAlgo('merge'));
+    document.getElementById('tab-quick').addEventListener('click', () => selectAlgo('quick'));
+
+    document.getElementById('btn-play').addEventListener('click', () => {
+      if (animating) {
+        stopAnimation();
+        document.getElementById('btn-play').querySelector('text').textContent = '▶ PLAY';
+      } else {
+        startAnimation();
+        document.getElementById('btn-play').querySelector('text').textContent = '⏸ PAUSE';
+      }
+    });
+
+    document.getElementById('btn-reset').addEventListener('click', () => {
+      document.getElementById('btn-play').querySelector('text').textContent = '▶ PLAY';
+      resetVisualization();
+    });
+
+    document.getElementById('btn-slow').addEventListener('click', () => setDelay(400, 'slow'));
+    document.getElementById('btn-fast').addEventListener('click', () => setDelay(120, 'fast'));
+    document.getElementById('btn-vfast').addEventListener('click', () => setDelay(30, 'vfast'));
+
+    // ─── Initialize ──────────────────────────────────────────────────────
+    updateComplexity();
+    steps = runAlgorithm();
+    renderBars(baseArray, {}, new Set());
+  ]]></script>
+</svg>

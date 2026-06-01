@@ -1,0 +1,539 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="820" viewBox="0 0 1100 820" font-family="Georgia, 'Times New Roman', serif">
+
+  <!-- ===== BACKGROUND ===== -->
+  <defs>
+    <!-- Grid pattern -->
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#1e3a5f" stroke-width="0.4" opacity="0.5"/>
+    </pattern>
+
+    <!-- Arrow markers -->
+    <marker id="arrowBlue" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#4fc3f7"/>
+    </marker>
+    <marker id="arrowGray" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#90a4ae"/>
+    </marker>
+    <marker id="arrowWhite" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#eceff1"/>
+    </marker>
+    <marker id="arrowGold" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#ffd54f"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#69f0ae"/>
+    </marker>
+
+    <!-- Glow filter -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowStrong">
+      <feGaussianBlur stdDeviation="5" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+
+    <!-- Gradients -->
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a1628"/>
+      <stop offset="100%" stop-color="#0d2137"/>
+    </linearGradient>
+    <linearGradient id="panelGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#112240"/>
+      <stop offset="100%" stop-color="#0d1b33"/>
+    </linearGradient>
+    <linearGradient id="headerGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1565c0"/>
+      <stop offset="50%" stop-color="#0288d1"/>
+      <stop offset="100%" stop-color="#1565c0"/>
+    </linearGradient>
+    <linearGradient id="barGrad1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#29b6f6"/>
+      <stop offset="100%" stop-color="#0d47a1"/>
+    </linearGradient>
+    <linearGradient id="barGrad2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#69f0ae"/>
+      <stop offset="100%" stop-color="#00695c"/>
+    </linearGradient>
+    <linearGradient id="barGrad3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffd54f"/>
+      <stop offset="100%" stop-color="#e65100"/>
+    </linearGradient>
+    <linearGradient id="circleGrad" cx="50%" cy="50%" r="50%" fx="40%" fy="40%" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#1e88e5" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#0d1b33" stop-opacity="0.1"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1100" height="820" fill="url(#bgGrad)"/>
+  <rect width="1100" height="820" fill="url(#grid)"/>
+
+  <!-- ===== TITLE BANNER ===== -->
+  <rect x="0" y="0" width="1100" height="72" fill="url(#headerGrad)" opacity="0.95"/>
+  <rect x="0" y="68" width="1100" height="3" fill="#4fc3f7" opacity="0.8"/>
+
+  <text x="550" y="28" text-anchor="middle" font-size="26" font-weight="bold" fill="#ffffff" letter-spacing="3" filter="url(#glow)">THE FOURIER TRANSFORM</text>
+  <text x="550" y="56" text-anchor="middle" font-size="14" fill="#90caf9" letter-spacing="1.5">Decomposing any signal into its pure frequency components</text>
+
+  <!-- ===== FORMULA BANNER ===== -->
+  <rect x="20" y="82" width="1060" height="44" rx="8" fill="#0d2137" stroke="#1565c0" stroke-width="1.5" opacity="0.9"/>
+  <text x="550" y="98" text-anchor="middle" font-size="11" fill="#78909c" letter-spacing="1">FOURIER TRANSFORM FORMULA</text>
+  <text x="550" y="118" text-anchor="middle" font-size="17" fill="#ffd54f" font-style="italic" letter-spacing="1" filter="url(#glow)">F(&#x3c9;) = &#x222b;&#x208b;&#x221e;&#x207a;&#x221e; f(t) &#xb7; e&#x207b;&#x2071;&#x1d6da;&#x1d70; dt</text>
+
+  <!-- ===== SECTION 1: TIME DOMAIN (top-left) ===== -->
+  <rect x="20" y="138" width="340" height="195" rx="10" fill="url(#panelGrad)" stroke="#1565c0" stroke-width="1.5"/>
+  <rect x="20" y="138" width="340" height="32" rx="10" fill="#1565c0" opacity="0.6"/>
+  <rect x="20" y="158" width="340" height="12" fill="#1565c0" opacity="0.6"/>
+  <text x="190" y="160" text-anchor="middle" font-size="13" font-weight="bold" fill="#4fc3f7" letter-spacing="1">① TIME DOMAIN  f(t)</text>
+
+  <!-- Time domain axes -->
+  <line x1="55" y1="295" x2="345" y2="295" stroke="#4fc3f7" stroke-width="1.2" marker-end="url(#arrowBlue)"/>
+  <line x1="55" y1="295" x2="55" y2="178" stroke="#4fc3f7" stroke-width="1.2" marker-end="url(#arrowBlue)"/>
+  <text x="350" y="299" font-size="11" fill="#90caf9" font-style="italic">t</text>
+  <text x="48" y="174" font-size="11" fill="#90caf9" text-anchor="middle" font-style="italic">f(t)</text>
+
+  <!-- Grid lines for time domain -->
+  <line x1="55" y1="237" x2="340" y2="237" stroke="#1e3a5f" stroke-width="0.8" stroke-dasharray="4,4"/>
+  <line x1="55" y1="207" x2="340" y2="207" stroke="#1e3a5f" stroke-width="0.8" stroke-dasharray="4,4"/>
+  <line x1="127" y1="178" x2="127" y2="295" stroke="#1e3a5f" stroke-width="0.8" stroke-dasharray="4,4"/>
+  <line x1="199" y1="178" x2="199" y2="295" stroke="#1e3a5f" stroke-width="0.8" stroke-dasharray="4,4"/>
+  <line x1="271" y1="178" x2="271" y2="295" stroke="#1e3a5f" stroke-width="0.8" stroke-dasharray="4,4"/>
+
+  <!-- Composite wave (sum of 3 sinusoids) drawn as path -->
+  <!-- f(t) = sin(1x) + 0.5*sin(3x) + 0.3*sin(5x), scaled to fit panel -->
+  <!-- x from 55 to 340 mapped to 0..2pi, y=237 is zero line, amplitude 45px -->
+  <path d="
+    M 55.0,237.0
+    C 57.5,223.6 60.0,211.0 62.5,199.5
+    C 65.0,188.0 67.5,177.8 70.0,179.0
+    C 72.5,180.2 75.0,193.0 77.5,205.8
+    C 80.0,218.5 82.5,230.5 85.0,235.5
+    C 87.5,240.5 90.0,238.5 92.5,232.8
+    C 95.0,227.0 97.5,217.8 100.0,210.5
+    C 102.5,203.2 105.0,198.5 107.5,198.5
+    C 110.0,198.5 112.5,203.5 115.0,211.5
+    C 117.5,219.5 120.0,230.0 122.5,237.0
+    C 125.0,244.0 127.5,247.0 130.0,247.0
+    C 132.5,247.0 135.0,244.5 137.5,240.0
+    C 140.0,235.5 142.5,229.0 145.0,223.8
+    C 147.5,218.5 150.0,215.0 152.5,215.0
+    C 155.0,215.0 157.5,218.5 160.0,224.5
+    C 162.5,230.5 165.0,238.5 167.5,246.5
+    C 170.0,254.5 172.5,261.5 175.0,264.5
+    C 177.5,267.5 180.0,266.5 182.5,262.0
+    C 185.0,257.5 187.5,250.0 190.0,241.8
+    C 192.5,233.5 195.0,225.0 197.5,219.2
+    C 200.0,213.5 202.5,211.0 205.0,212.5
+    C 207.5,214.0 210.0,219.5 212.5,227.5
+    C 215.0,235.5 217.5,245.5 220.0,252.0
+    C 222.5,258.5 225.0,261.0 227.5,260.0
+    C 230.0,259.0 232.5,255.0 235.0,249.5
+    C 237.5,244.0 240.0,237.5 242.5,232.5
+    C 245.0,227.5 247.5,224.5 250.0,224.5
+    C 252.5,224.5 255.0,228.0 257.5,233.5
+    C 260.0,239.0 262.5,246.0 265.0,252.0
+    C 267.5,258.0 270.0,262.5 272.5,263.5
+    C 275.0,264.5 277.5,262.5 280.0,258.0
+    C 282.5,253.5 285.0,247.0 287.5,240.5
+    C 290.0,234.0 292.5,228.5 295.0,226.0
+    C 297.5,223.5 300.0,224.5 302.5,228.5
+    C 305.0,232.5 307.5,239.5 310.0,246.5
+    C 312.5,253.5 315.0,259.0 317.5,260.5
+    C 320.0,262.0 322.5,259.0 325.0,253.5
+    C 327.5,248.0 330.0,240.5 332.5,234.5
+    C 335.0,228.5 337.5,224.5 340.0,223.5
+  " fill="none" stroke="#4fc3f7" stroke-width="2.5" filter="url(#glow)" stroke-linecap="round"/>
+
+  <!-- Zero line marker -->
+  <line x1="52" y1="237" x2="58" y2="237" stroke="#4fc3f7" stroke-width="1"/>
+  <text x="48" y="241" font-size="9" fill="#90caf9" text-anchor="middle">0</text>
+
+  <!-- Annotation -->
+  <text x="190" y="315" text-anchor="middle" font-size="10.5" fill="#90caf9">Complex waveform = mixture of frequencies</text>
+
+  <!-- ===== BIG ARROW: TIME → FREQUENCY ===== -->
+  <rect x="372" y="198" width="110" height="72" rx="8" fill="#0a1f3d" stroke="#0288d1" stroke-width="1" opacity="0.8"/>
+  <text x="427" y="222" text-anchor="middle" font-size="10" fill="#78909c">apply</text>
+  <text x="427" y="238" text-anchor="middle" font-size="13" fill="#ffd54f" font-weight="bold" font-style="italic">&#x2131;{ f(t) }</text>
+  <text x="427" y="255" text-anchor="middle" font-size="10" fill="#78909c">Fourier</text>
+  <text x="427" y="268" text-anchor="middle" font-size="10" fill="#78909c">Transform</text>
+  <line x1="362" y1="237" x2="372" y2="237" stroke="#ffd54f" stroke-width="2" marker-end="url(#arrowGold)"/>
+  <line x1="482" y1="237" x2="495" y2="237" stroke="#ffd54f" stroke-width="2" marker-end="url(#arrowGold)"/>
+
+  <!-- ===== SECTION 2: FREQUENCY DOMAIN (top-right) ===== -->
+  <rect x="498" y="138" width="340" height="195" rx="10" fill="url(#panelGrad)" stroke="#00695c" stroke-width="1.5"/>
+  <rect x="498" y="138" width="340" height="32" rx="10" fill="#00695c" opacity="0.6"/>
+  <rect x="498" y="158" width="340" height="12" fill="#00695c" opacity="0.6"/>
+  <text x="668" y="160" text-anchor="middle" font-size="13" font-weight="bold" fill="#69f0ae" letter-spacing="1">② FREQUENCY DOMAIN  F(ω)</text>
+
+  <!-- Freq domain axes -->
+  <line x1="530" y1="295" x2="825" y2="295" stroke="#69f0ae" stroke-width="1.2" marker-end="url(#arrowGreen)"/>
+  <line x1="530" y1="295" x2="530" y2="178" stroke="#69f0ae" stroke-width="1.2" marker-end="url(#arrowGreen)"/>
+  <text x="830" y="299" font-size="11" fill="#a5d6a7" font-style="italic">ω</text>
+  <text x="525" y="174" font-size="11" fill="#a5d6a7" text-anchor="middle" font-style="italic">|F|</text>
+
+  <!-- Frequency bars: spike at ω=1 (amplitude 1), ω=3 (0.5), ω=5 (0.3) -->
+  <!-- Positions: ω=1 at x=590, ω=3 at x=666, ω=5 at x=742 -->
+
+  <!-- Bar at ω=1, height=80px -->
+  <rect x="583" y="215" width="14" height="80" rx="3" fill="url(#barGrad1)" opacity="0.9" filter="url(#glow)"/>
+  <line x1="590" y1="295" x2="590" y2="215" stroke="#29b6f6" stroke-width="1" stroke-dasharray="2,2" opacity="0.5"/>
+  <text x="590" y="308" font-size="10" fill="#90caf9" text-anchor="middle">ω₁</text>
+  <text x="590" y="320" font-size="9" fill="#64b5f6" text-anchor="middle">f=1 Hz</text>
+  <text x="590" y="210" font-size="9" fill="#29b6f6" text-anchor="middle">1.0</text>
+
+  <!-- Bar at ω=3, height=40px -->
+  <rect x="659" y="255" width="14" height="40" rx="3" fill="url(#barGrad2)" opacity="0.9" filter="url(#glow)"/>
+  <line x1="666" y1="295" x2="666" y2="255" stroke="#69f0ae" stroke-width="1" stroke-dasharray="2,2" opacity="0.5"/>
+  <text x="666" y="308" font-size="10" fill="#a5d6a7" text-anchor="middle">ω₂</text>
+  <text x="666" y="320" font-size="9" fill="#80cbc4" text-anchor="middle">f=3 Hz</text>
+  <text x="666" y="250" font-size="9" fill="#69f0ae" text-anchor="middle">0.5</text>
+
+  <!-- Bar at ω=5, height=24px -->
+  <rect x="735" y="271" width="14" height="24" rx="3" fill="url(#barGrad3)" opacity="0.9" filter="url(#glow)"/>
+  <line x1="742" y1="295" x2="742" y2="271" stroke="#ffd54f" stroke-width="1" stroke-dasharray="2,2" opacity="0.5"/>
+  <text x="742" y="308" font-size="10" fill="#ffe082" text-anchor="middle">ω₃</text>
+  <text x="742" y="320" font-size="9" fill="#ffcc80" text-anchor="middle">f=5 Hz</text>
+  <text x="742" y="266" font-size="9" fill="#ffd54f" text-anchor="middle">0.3</text>
+
+  <!-- Grid lines -->
+  <line x1="530" y1="255" x2="820" y2="255" stroke="#1e3a5f" stroke-width="0.8" stroke-dasharray="3,3"/>
+  <line x1="530" y1="215" x2="820" y2="215" stroke="#1e3a5f" stroke-width="0.8" stroke-dasharray="3,3"/>
+
+  <text x="668" y="340" text-anchor="middle" font-size="10.5" fill="#a5d6a7">Each spike = one pure frequency component</text>
+
+  <!-- ===== SECTION 3: DECOMPOSITION (middle row) ===== -->
+  <rect x="20" y="355" width="860" height="210" rx="10" fill="url(#panelGrad)" stroke="#4527a0" stroke-width="1.5"/>
+  <rect x="20" y="355" width="860" height="32" rx="10" fill="#4527a0" opacity="0.6"/>
+  <rect x="20" y="375" width="860" height="12" fill="#4527a0" opacity="0.6"/>
+  <text x="450" y="377" text-anchor="middle" font-size="13" font-weight="bold" fill="#ce93d8" letter-spacing="1">③ SIGNAL DECOMPOSITION — f(t) = Σ Aₙ · sin(nωt + φₙ)</text>
+
+  <!-- Sub-panel labels -->
+  <text x="115" y="403" text-anchor="middle" font-size="10" fill="#b39ddb">Component 1</text>
+  <text x="115" y="415" text-anchor="middle" font-size="9" fill="#9575cd">A=1.0, f=1 Hz</text>
+
+  <text x="317" y="403" text-anchor="middle" font-size="10" fill="#b39ddb">Component 2</text>
+  <text x="317" y="415" text-anchor="middle" font-size="9" fill="#9575cd">A=0.5, f=3 Hz</text>
+
+  <text x="519" y="403" text-anchor="middle" font-size="10" fill="#b39ddb">Component 3</text>
+  <text x="519" y="415" text-anchor="middle" font-size="9" fill="#9575cd">A=0.3, f=5 Hz</text>
+
+  <!-- "+" signs between components -->
+  <text x="218" y="490" text-anchor="middle" font-size="28" fill="#ce93d8" font-weight="bold">+</text>
+  <text x="420" y="490" text-anchor="middle" font-size="28" fill="#ce93d8" font-weight="bold">+</text>
+  <text x="620" y="490" text-anchor="middle" font-size="28" fill="#ce93d8" font-weight="bold">=</text>
+
+  <!-- Component 1 axes -->
+  <line x1="48" y1="510" x2="188" y2="510" stroke="#29b6f6" stroke-width="1" marker-end="url(#arrowBlue)"/>
+  <line x1="48" y1="510" x2="48" y2="428" stroke="#29b6f6" stroke-width="1" marker-end="url(#arrowBlue)"/>
+  <!-- Sine wave: A=1, f=1 -->
+  <path d="M 48,510 Q 70,440 92,470 Q 114,500 136,510 Q 158,520 180,490 Q 202,460 224,480" fill="none" stroke="#29b6f6" stroke-width="2.2" filter="url(#glow)"/>
+  <!-- Fix: draw proper sine for panel width 48..188 -->
+  <path d="
+    M 48,510
+    C 55,484 62,459 69,445
+    C 76,431 83,429 90,438
+    C 97,447 104,467 111,487
+    C 118,507 125,519 132,519
+    C 139,519 146,507 153,490
+    C 160,473 167,453 174,442
+    C 181,431 188,430 188,430
+  " fill="none" stroke="#29b6f6" stroke-width="2.2" filter="url(#glow)" stroke-linecap="round"/>
+
+  <!-- Component 2 axes -->
+  <line x1="248" y1="510" x2="388" y2="510" stroke="#69f0ae" stroke-width="1" marker-end="url(#arrowGreen)"/>
+  <line x1="248" y1="510" x2="248" y2="428" stroke="#69f0ae" stroke-width="1" marker-end="url(#arrowGreen)"/>
+  <!-- Sine wave: A=0.5, f=3 (3 cycles in same width) -->
+  <path d="
+    M 248,510
+    C 252,496 256,482 260,474
+    C 264,466 268,464 272,469
+    C 276,474 280,485 284,495
+    C 288,505 292,511 296,510
+    C 300,509 304,502 308,493
+    C 312,484 316,474 320,470
+    C 324,466 328,468 332,476
+    C 336,484 340,496 344,504
+    C 348,512 352,514 356,511
+    C 360,508 364,500 368,491
+    C 372,482 376,473 380,469
+    C 384,465 388,466 388,466
+  " fill="none" stroke="#69f0ae" stroke-width="2.2" filter="url(#glow)" stroke-linecap="round"/>
+
+  <!-- Component 3 axes -->
+  <line x1="448" y1="510" x2="588" y2="510" stroke="#ffd54f" stroke-width="1" marker-end="url(#arrowGold)"/>
+  <line x1="448" y1="510" x2="448" y2="428" stroke="#ffd54f" stroke-width="1" marker-end="url(#arrowGold)"/>
+  <!-- Sine wave: A=0.3, f=5 (5 cycles in same width) -->
+  <path d="
+    M 448,510
+    C 451,503 454,496 457,490
+    C 460,484 463,481 466,482
+    C 469,483 472,488 475,495
+    C 478,502 481,508 484,510
+    C 487,512 490,510 493,505
+    C 496,500 499,493 502,488
+    C 505,483 508,481 511,483
+    C 514,485 517,490 520,497
+    C 523,504 526,510 529,512
+    C 532,514 535,512 538,507
+    C 541,502 544,495 547,490
+    C 550,485 553,483 556,484
+    C 559,485 562,490 565,496
+    C 568,502 571,508 574,511
+    C 577,514 580,512 583,508
+    C 586,504 589,498 588,498
+  " fill="none" stroke="#ffd54f" stroke-width="2.2" filter="url(#glow)" stroke-linecap="round"/>
+
+  <!-- Sum (composite) axes -->
+  <line x1="650" y1="510" x2="860" y2="510" stroke="#4fc3f7" stroke-width="1" marker-end="url(#arrowBlue)"/>
+  <line x1="650" y1="510" x2="650" y2="428" stroke="#4fc3f7" stroke-width="1" marker-end="url(#arrowBlue)"/>
+  <text x="755" y="403" text-anchor="middle" font-size="10" fill="#e1bee7">Sum (Result)</text>
+  <text x="755" y="415" text-anchor="middle" font-size="9" fill="#ba68c8">All components combined</text>
+  <!-- Composite wave in decomposition panel -->
+  <path d="
+    M 650,510
+    C 654,493 658,476 662,463
+    C 666,450 670,444 674,447
+    C 678,450 682,461 686,474
+    C 690,487 694,500 698,507
+    C 702,514 706,514 710,509
+    C 714,504 718,494 722,486
+    C 726,478 730,473 734,473
+    C 738,473 742,478 746,486
+    C 750,494 754,504 758,511
+    C 762,518 766,520 770,517
+    C 774,514 778,507 782,498
+    C 786,489 790,480 794,475
+    C 798,470 802,470 806,474
+    C 810,478 814,486 818,496
+    C 822,506 826,515 830,520
+    C 834,525 838,524 842,519
+    C 846,514 850,505 854,497
+    C 858,489 860,485 860,483
+  " fill="none" stroke="#e040fb" stroke-width="2.5" filter="url(#glow)" stroke-linecap="round"/>
+
+  <!-- ===== SECTION 4: UNIT CIRCLE (bottom-left) ===== -->
+  <rect x="20" y="578" width="260" height="228" rx="10" fill="url(#panelGrad)" stroke="#c62828" stroke-width="1.5"/>
+  <rect x="20" y="578" width="260" height="32" rx="10" fill="#c62828" opacity="0.6"/>
+  <rect x="20" y="598" width="260" height="12" fill="#c62828" opacity="0.6"/>
+  <text x="150" y="600" text-anchor="middle" font-size="13" font-weight="bold" fill="#ef9a9a" letter-spacing="1">④ EULER'S FORMULA</text>
+
+  <!-- Circle -->
+  <circle cx="150" cy="720" r="70" fill="none" stroke="#37474f" stroke-width="1" stroke-dasharray="4,3"/>
+  <circle cx="150" cy="720" r="70" fill="url(#circleGrad)"/>
+
+  <!-- Cross axes of circle -->
+  <line x1="75" y1="720" x2="228" y2="720" stroke="#546e7a" stroke-width="0.8"/>
+  <line x1="150" y1="648" x2="150" y2="793" stroke="#546e7a" stroke-width="0.8"/>
+
+  <!-- Angle arc -->
+  <path d="M 175,720 A 25,25 0 0 0 162,696" fill="none" stroke="#ffd54f" stroke-width="1.5"/>
+  <text x="185" y="713" font-size="10" fill="#ffd54f" font-style="italic">θ</text>
+
+  <!-- Rotating vector (at θ≈50deg) -->
+  <!-- cos(50)≈0.643, sin(50)≈0.766, so x=150+45=195, y=720-54=666 -->
+  <line x1="150" y1="720" x2="195" y2="666" stroke="#ff7043" stroke-width="2.2" marker-end="url(#arrowGold)" filter="url(#glow)"/>
+
+  <!-- Dot at tip -->
+  <circle cx="195" cy="666" r="4" fill="#ffd54f" filter="url(#glow)"/>
+
+  <!-- Real / Imaginary projections -->
+  <!-- Real projection (x-axis): dashed line from tip to x-axis -->
+  <line x1="195" y1="666" x2="195" y2="720" stroke="#29b6f6" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <!-- Imag projection (y-axis): dashed line from tip to y-axis -->
+  <line x1="150" y1="666" x2="195" y2="666" stroke="#69f0ae" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <!-- Labels -->
+  <text x="198" y="698" font-size="9.5" fill="#29b6f6" font-style="italic">cos θ</text>
+  <text x="165" y="662" font-size="9.5" fill="#69f0ae" font-style="italic">sin θ</text>
+  <text x="220" y="724" font-size="9.5" fill="#90caf9">Re</text>
+  <text x="153" y="644" font-size="9.5" fill="#a5d6a7">Im</text>
+  <text x="78" y="726" font-size="9" fill="#78909c">-1</text>
+  <text x="219" y="726" font-size="9" fill="#78909c">1</text>
+  <text x="153" y="652" font-size="9" fill="#78909c">i</text>
+  <text x="153" y="795" font-size="9" fill="#78909c">-i</text>
+
+  <!-- Euler formula text -->
+  <rect x="30" y="614" width="240" height="36" rx="5" fill="#1a0a0a" stroke="#c62828" stroke-width="0.8" opacity="0.7"/>
+  <text x="150" y="626" text-anchor="middle" font-size="9.5" fill="#ef9a9a">e^(iθ) = cos θ + i·sin θ</text>
+  <text x="150" y="642" text-anchor="middle" font-size="9.5" fill="#ef9a9a">e^(-iωt) wraps f(t) around the circle</text>
+
+  <!-- ===== SECTION 5: PHASE SPECTRUM (bottom-center) ===== -->
+  <rect x="295" y="578" width="280" height="228" rx="10" fill="url(#panelGrad)" stroke="#e65100" stroke-width="1.5"/>
+  <rect x="295" y="578" width="280" height="32" rx="10" fill="#e65100" opacity="0.6"/>
+  <rect x="295" y="598" width="280" height="12" fill="#e65100" opacity="0.6"/>
+  <text x="435" y="600" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffccbc" letter-spacing="1">⑤ PHASE SPECTRUM  ∠F(ω)</text>
+
+  <!-- Phase spectrum axes -->
+  <line x1="325" y1="760" x2="560" y2="760" stroke="#ffab91" stroke-width="1.2" marker-end="url(#arrowGray)"/>
+  <line x1="325" y1="760" x2="325" y2="625" stroke="#ffab91" stroke-width="1.2" marker-end="url(#arrowGray)"/>
+  <text x="565" y="764" font-size="10" fill="#ffccbc" font-style="italic">ω</text>
+  <text x="318" y="621" font-size="10" fill="#ffccbc" text-anchor="middle">φ</text>
+
+  <!-- Phase grid -->
+  <line x1="325" y1="693" x2="556" y2="693" stroke="#1e3a5f" stroke-width="0.8" stroke-dasharray="3,3"/>
+  <line x1="325" y1="727" x2="556" y2="727" stroke="#1e3a5f" stroke-width="0.8" stroke-dasharray="3,3"/>
+  <text x="319" y="697" font-size="8.5" fill="#78909c" text-anchor="middle">π/2</text>
+  <text x="319" y="731" font-size="8.5" fill="#78909c" text-anchor="middle">-π/2</text>
+  <text x="319" y="764" font-size="8.5" fill="#78909c" text-anchor="middle">0</text>
+
+  <!-- Phase markers: ω1 at phase=0, ω2 at π/4, ω3 at -π/3 -->
+  <!-- ω1: x=390, y=760 (phase 0) -->
+  <circle cx="390" cy="760" r="5" fill="#29b6f6" opacity="0.9"/>
+  <line x1="390" y1="760" x2="390" y2="760" stroke="#29b6f6" stroke-width="0"/>
+  <text x="390" y="778" font-size="9" fill="#90caf9" text-anchor="middle">ω₁</text>
+  <text x="390" y="752" font-size="8.5" fill="#64b5f6" text-anchor="middle">0°</text>
+
+  <!-- ω2: x=460, phase≈π/4 → y=693+some offset: y=693 is π/2, y=760 is 0, so π/4 is 727 approx -->
+  <circle cx="460" cy="727" r="5" fill="#69f0ae" opacity="0.9"/>
+  <line x1="460" y1="727" x2="460" y2="760" stroke="#69f0ae" stroke-width="1.2" stroke-dasharray="3,3"/>
+  <text x="460" y="778" font-size="9" fill="#a5d6a7" text-anchor="middle">ω₂</text>
+  <text x="478" y="727" font-size="8.5" fill="#69f0ae">-π/4</text>
+
+  <!-- ω3: x=530, phase≈-π/3 → y=760+some: below zero, use y=783 clamp -->
+  <!-- Actually show it above zero at y=704 as +π/3 -->
+  <circle cx="530" cy="700" r="5" fill="#ffd54f" opacity="0.9"/>
+  <line x1="530" y1="700" x2="530" y2="760" stroke="#ffd54f" stroke-width="1.2" stroke-dasharray="3,3"/>
+  <text x="530" y="778" font-size="9" fill="#ffe082" text-anchor="middle">ω₃</text>
+  <text x="548" y="700" font-size="8.5" fill="#ffd54f">π/3</text>
+
+  <!-- Explanation -->
+  <text x="435" y="622" text-anchor="middle" font-size="9" fill="#ffccbc">Phase tells us the shift of each sine wave.</text>
+  <text x="435" y="635" text-anchor="middle" font-size="9" fill="#ffccbc">Amplitude + Phase fully describes F(ω).</text>
+
+  <!-- ===== SECTION 6: KEY PROPERTIES (bottom-right) ===== -->
+  <rect x="590" y="578" width="490" height="228" rx="10" fill="url(#panelGrad)" stroke="#1b5e20" stroke-width="1.5"/>
+  <rect x="590" y="578" width="490" height="32" rx="10" fill="#1b5e20" opacity="0.6"/>
+  <rect x="590" y="598" width="490" height="12" fill="#1b5e20" opacity="0.6"/>
+  <text x="835" y="600" text-anchor="middle" font-size="13" font-weight="bold" fill="#a5d6a7" letter-spacing="1">⑥ KEY PROPERTIES &amp; APPLICATIONS</text>
+
+  <!-- Two columns of properties -->
+  <!-- Left column: Properties -->
+  <text x="606" y="625" font-size="11" font-weight="bold" fill="#69f0ae">Properties</text>
+
+  <rect x="600" y="630" width="225" height="20" rx="3" fill="#0a2010" opacity="0.6"/>
+  <text x="608" y="644" font-size="10" fill="#c8e6c9">
+    <tspan font-weight="bold" fill="#aed581">Linearity: </tspan>&#x2131;{af+bg} = a&#x2131;{f} + b&#x2131;{g}
+  </text>
+
+  <rect x="600" y="654" width="225" height="20" rx="3" fill="#0a2010" opacity="0.6"/>
+  <text x="608" y="668" font-size="10" fill="#c8e6c9">
+    <tspan font-weight="bold" fill="#aed581">Duality: </tspan>F(t) ↔ f(-ω) in freq domain
+  </text>
+
+  <rect x="600" y="678" width="225" height="20" rx="3" fill="#0a2010" opacity="0.6"/>
+  <text x="608" y="692" font-size="10" fill="#c8e6c9">
+    <tspan font-weight="bold" fill="#aed581">Convolution: </tspan>f*g ↔ F(ω)·G(ω)
+  </text>
+
+  <rect x="600" y="702" width="225" height="20" rx="3" fill="#0a2010" opacity="0.6"/>
+  <text x="608" y="716" font-size="10" fill="#c8e6c9">
+    <tspan font-weight="bold" fill="#aed581">Shift: </tspan>f(t-t₀) ↔ e^(-iωt₀)·F(ω)
+  </text>
+
+  <rect x="600" y="726" width="225" height="20" rx="3" fill="#0a2010" opacity="0.6"/>
+  <text x="608" y="740" font-size="10" fill="#c8e6c9">
+    <tspan font-weight="bold" fill="#aed581">Parseval: </tspan>∫|f|²dt = ∫|F|²dω
+  </text>
+
+  <rect x="600" y="750" width="225" height="20" rx="3" fill="#0a2010" opacity="0.6"/>
+  <text x="608" y="764" font-size="10" fill="#c8e6c9">
+    <tspan font-weight="bold" fill="#aed581">Inverse FT: </tspan>f(t) = (1/2π)∫F(ω)e^(iωt)dω
+  </text>
+
+  <!-- Right column: Applications -->
+  <text x="845" y="625" font-size="11" font-weight="bold" fill="#69f0ae">Applications</text>
+
+  <!-- Icons and app names -->
+  <rect x="835" y="630" width="235" height="20" rx="3" fill="#0a2010" opacity="0.6"/>
+  <text x="843" y="644" font-size="10" fill="#c8e6c9">🎵  Audio EQ, MP3 compression, noise removal</text>
+
+  <rect x="835" y="654" width="235" height="20" rx="3" fill="#0a2010" opacity="0.6"/>
+  <text x="843" y="668" font-size="10" fill="#c8e6c9">📡  Radio &amp; wireless signal processing</text>
+
+  <rect x="835" y="678" width="235" height="20" rx="3" fill="#0a2010" opacity="0.6"/>
+  <text x="843" y="692" font-size="10" fill="#c8e6c9">🏥  MRI &amp; medical imaging (k-space)</text>
+
+  <rect x="835" y="702" width="235" height="20" rx="3" fill="#0a2010" opacity="0.6"/>
+  <text x="843" y="716" font-size="10" fill="#c8e6c9">📷  JPEG image compression (DCT)</text>
+
+  <rect x="835" y="726" width="235" height="20" rx="3" fill="#0a2010" opacity="0.6"/>
+  <text x="843" y="740" font-size="10" fill="#c8e6c9">🌊  Solving PDEs in physics &amp; engineering</text>
+
+  <rect x="835" y="750" width="235" height="20" rx="3" fill="#0a2010" opacity="0.6"/>
+  <text x="843" y="764" font-size="10" fill="#c8e6c9">⚡  FFT: O(N log N) fast algorithm</text>
+
+  <!-- Divider between columns -->
+  <line x1="832" y1="618" x2="832" y2="790" stroke="#2e7d32" stroke-width="1" stroke-dasharray="3,3" opacity="0.7"/>
+
+  <!-- ===== LEGEND / FLOW SUMMARY ===== -->
+  <rect x="845" y="138" width="235" height="195" rx="10" fill="url(#panelGrad)" stroke="#37474f" stroke-width="1.5"/>
+  <rect x="845" y="138" width="235" height="32" rx="10" fill="#263238" opacity="0.8"/>
+  <rect x="845" y="158" width="235" height="12" fill="#263238" opacity="0.8"/>
+  <text x="962" y="160" text-anchor="middle" font-size="12" font-weight="bold" fill="#b0bec5" letter-spacing="1">HOW IT WORKS</text>
+
+  <text x="858" y="184" font-size="10" fill="#90a4ae">The Fourier Transform converts a</text>
+  <text x="858" y="198" font-size="10" fill="#90a4ae">signal from the <tspan fill="#4fc3f7" font-weight="bold">time domain</tspan> to the</text>
+  <text x="858" y="212" font-size="10" fill="#90a4ae"><tspan fill="#69f0ae" font-weight="bold">frequency domain</tspan>. It asks:</text>
+  <text x="858" y="232" font-size="10.5" fill="#e0e0e0" font-style="italic">"What frequencies make up</text>
+  <text x="858" y="246" font-size="10.5" fill="#e0e0e0" font-style="italic"> this signal?"</text>
+
+  <line x1="858" y1="256" x2="1065" y2="256" stroke="#37474f" stroke-width="1"/>
+
+  <!-- Color legend -->
+  <rect x="858" y="262" width="12" height="10" rx="2" fill="#29b6f6"/>
+  <text x="876" y="271" font-size="9.5" fill="#90a4ae">Time domain signal f(t)</text>
+
+  <rect x="858" y="279" width="12" height="10" rx="2" fill="#69f0ae"/>
+  <text x="876" y="288" font-size="9.5" fill="#90a4ae">Frequency spectrum F(ω)</text>
+
+  <rect x="858" y="296" width="12" height="10" rx="2" fill="#ffd54f"/>
+  <text x="876" y="305" font-size="9.5" fill="#90a4ae">Individual components</text>
+
+  <rect x="858" y="313" width="12" height="10" rx="2" fill="#e040fb"/>
+  <text x="876" y="322" font-size="9.5" fill="#90a4ae">Reconstructed signal</text>
+
+  <!-- ===== FOOTER ===== -->
+  <rect x="0" y="802" width="1100" height="18" fill="#0a1628" opacity="0.9"/>
+  <line x1="0" y1="802" width="1100" height="1" stroke="#1565c0" stroke-width="1"/>
+  <text x="550" y="815" text-anchor="middle" font-size="9.5" fill="#546e7a" letter-spacing="0.8">
+    Jean-Baptiste Joseph Fourier (1768–1830) · "La théorie analytique de la chaleur" (1822) · F(ω) = ∫f(t)e^(-iωt)dt
+  </text>
+
+  <!-- ===== DECORATIVE ELEMENTS ===== -->
+  <!-- Corner decorations -->
+  <path d="M 0,0 L 18,0 L 0,18 Z" fill="#1565c0" opacity="0.6"/>
+  <path d="M 1100,0 L 1082,0 L 1100,18 Z" fill="#1565c0" opacity="0.6"/>
+  <path d="M 0,820 L 18,820 L 0,802 Z" fill="#1565c0" opacity="0.6"/>
+  <path d="M 1100,820 L 1082,820 L 1100,802 Z" fill="#1565c0" opacity="0.6"/>
+
+  <!-- Subtle sparkle dots -->
+  <circle cx="900" cy="480" r="2" fill="#4fc3f7" opacity="0.4" filter="url(#glow)"/>
+  <circle cx="920" cy="465" r="1.5" fill="#69f0ae" opacity="0.3"/>
+  <circle cx="940" cy="478" r="1" fill="#ffd54f" opacity="0.4"/>
+  <circle cx="960" cy="460" r="2" fill="#e040fb" opacity="0.3"/>
+  <circle cx="980" cy="472" r="1.5" fill="#4fc3f7" opacity="0.4"/>
+  <circle cx="1000" cy="455" r="1" fill="#69f0ae" opacity="0.3"/>
+  <circle cx="1020" cy="468" r="2" fill="#ffd54f" opacity="0.4"/>
+  <circle cx="1040" cy="450" r="1.5" fill="#e040fb" opacity="0.3"/>
+  <circle cx="1060" cy="463" r="1" fill="#4fc3f7" opacity="0.3"/>
+
+  <!-- Flowing wave decoration in empty space -->
+  <path d="M 880,420 Q 920,400 960,420 Q 1000,440 1040,420 Q 1080,400 1085,415" fill="none" stroke="#1565c0" stroke-width="1" opacity="0.4" stroke-dasharray="3,4"/>
+  <path d="M 880,440 Q 920,460 960,440 Q 1000,420 1040,440 Q 1080,460 1085,445" fill="none" stroke="#1565c0" stroke-width="1" opacity="0.3" stroke-dasharray="3,4"/>
+  <path d="M 880,460 Q 920,480 960,460 Q 1000,440 1040,460 Q 1080,480 1085,465" fill="none" stroke="#1565c0" stroke-width="1" opacity="0.2" stroke-dasharray="3,4"/>
+
+  <!-- Panel numbering glow dots -->
+  <circle cx="32" cy="154" r="8" fill="#1565c0" opacity="0.7"/>
+  <circle cx="510" cy="154" r="8" fill="#00695c" opacity="0.7"/>
+  <circle cx="32" cy="371" r="8" fill="#4527a0" opacity="0.7"/>
+  <circle cx="32" cy="594" r="8" fill="#c62828" opacity="0.7"/>
+  <circle cx="307" cy="594" r="8" fill="#e65100" opacity="0.7"/>
+  <circle cx="602" cy="594" r="8" fill="#1b5e20" opacity="0.7"/>
+
+</svg>

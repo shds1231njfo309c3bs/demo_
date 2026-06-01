@@ -1,0 +1,355 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 750" width="1000" height="750" font-family="Georgia, serif">
+
+  <!-- Background -->
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1b2a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1b2838;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="titleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#a855f7;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="panelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e2d40;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#162030;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <marker id="arrowBlue" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#00d4ff"/>
+    </marker>
+    <marker id="arrowWhite" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#94a3b8"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#34d399"/>
+    </marker>
+    <marker id="arrowPurple" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#a855f7"/>
+    </marker>
+  </defs>
+
+  <rect width="1000" height="750" fill="url(#bgGrad)"/>
+
+  <!-- Subtle grid lines -->
+  <g opacity="0.06" stroke="#94a3b8" stroke-width="0.5">
+    <line x1="0" y1="100" x2="1000" y2="100"/>
+    <line x1="0" y1="200" x2="1000" y2="200"/>
+    <line x1="0" y1="300" x2="1000" y2="300"/>
+    <line x1="0" y1="400" x2="1000" y2="400"/>
+    <line x1="0" y1="500" x2="1000" y2="500"/>
+    <line x1="0" y1="600" x2="1000" y2="600"/>
+    <line x1="0" y1="700" x2="1000" y2="700"/>
+    <line x1="100" y1="0" x2="100" y2="750"/>
+    <line x1="200" y1="0" x2="200" y2="750"/>
+    <line x1="300" y1="0" x2="300" y2="750"/>
+    <line x1="400" y1="0" x2="400" y2="750"/>
+    <line x1="500" y1="0" x2="500" y2="750"/>
+    <line x1="600" y1="0" x2="600" y2="750"/>
+    <line x1="700" y1="0" x2="700" y2="750"/>
+    <line x1="800" y1="0" x2="800" y2="750"/>
+    <line x1="900" y1="0" x2="900" y2="750"/>
+  </g>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!--  TITLE SECTION                                             -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <text x="500" y="42" text-anchor="middle" font-size="30" font-weight="bold"
+        fill="url(#titleGrad)" filter="url(#glow)" letter-spacing="2">THE FOURIER TRANSFORM</text>
+  <text x="500" y="64" text-anchor="middle" font-size="13" fill="#94a3b8" letter-spacing="1">
+    Decomposing any signal into its constituent frequencies
+  </text>
+
+  <!-- Formula box -->
+  <rect x="310" y="72" width="380" height="30" rx="6" fill="#0d1b2a" stroke="#00d4ff" stroke-width="1" opacity="0.8"/>
+  <text x="500" y="91" text-anchor="middle" font-size="14" fill="#e2e8f0" font-family="Courier New, monospace">
+    <tspan fill="#a855f7">F</tspan><tspan fill="#e2e8f0">(ω) = </tspan>
+    <tspan fill="#00d4ff">∫</tspan>
+    <tspan fill="#e2e8f0"> f(t) · e</tspan>
+    <tspan font-size="10" baseline-shift="super" fill="#34d399">−iωt</tspan>
+    <tspan fill="#e2e8f0"> dt</tspan>
+  </text>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!--  PANEL 1: Time Domain Signal (top-left)                   -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <rect x="20" y="112" width="440" height="185" rx="10" fill="url(#panelGrad)" stroke="#1e3a5f" stroke-width="1.5"/>
+  <text x="240" y="132" text-anchor="middle" font-size="13" font-weight="bold" fill="#00d4ff" letter-spacing="1">TIME DOMAIN  f(t)</text>
+  <text x="240" y="148" text-anchor="middle" font-size="10" fill="#64748b">"What we observe"</text>
+
+  <!-- Time domain axes -->
+  <line x1="45" y1="238" x2="445" y2="238" stroke="#334155" stroke-width="1.5" marker-end="url(#arrowWhite)"/>
+  <line x1="60" y1="290" x2="60" y2="158" stroke="#334155" stroke-width="1.5" marker-end="url(#arrowWhite)"/>
+  <text x="448" y="242" font-size="10" fill="#94a3b8">t</text>
+  <text x="55" y="155" font-size="10" fill="#94a3b8">f(t)</text>
+
+  <!-- Composite time-domain wave: sum of 3 sinusoids -->
+  <!-- f(t) = 0.55*sin(2πf1*t) + 0.3*sin(2πf2*t) + 0.18*sin(2πf3*t) -->
+  <!-- Rendered as SVG path, t from 0 to 360, mapped to x:65->435, amplitude centered at y=238 -->
+  <path d="
+    M 65,238
+    C 68,208 74,183 80,192 S 92,248 98,238 S 110,180 116,185 S 128,248 134,238 S 146,182 152,188 S 164,248 170,238 S 182,183 188,190 S 200,248 206,238 S 218,183 224,190 S 236,248 242,238 S 254,183 260,190 S 272,248 278,238 S 290,183 296,190 S 308,248 314,238 S 326,183 332,190 S 344,248 350,238 S 362,183 368,190 S 380,248 386,238 S 398,183 404,190 S 416,248 422,238 S 432,195 435,210
+  " fill="none" stroke="#00d4ff" stroke-width="0" opacity="0"/>
+
+  <!-- Composite signal path (pre-calculated points) -->
+  <polyline fill="none" stroke="#00d4ff" stroke-width="2" filter="url(#glow)" opacity="0.9"
+    points="
+    65,238 68,225 71,213 74,204 77,198 80,196 83,197 86,202 89,210 92,219
+    95,228 98,236 101,241 104,244 107,243 110,239 113,232 116,224 119,215
+    122,207 125,202 128,199 131,200 134,204 137,211 140,219 143,228
+    146,235 149,240 152,243 155,243 158,240 161,234 164,226 167,218
+    170,210 173,204 176,200 179,199 182,201 185,206 188,213 191,222
+    194,230 197,237 200,242 203,244 206,243 209,238 212,232 215,224
+    218,215 221,207 224,202 227,199 230,200 233,204 236,211 239,220
+    242,229 245,237 248,242 251,244 254,242 257,238 260,231 263,224
+    266,216 269,209 272,203 275,200 278,200 281,203 284,210 287,219
+    290,228 293,236 296,241 299,243 302,242 305,239 308,233 311,225
+    314,217 317,210 320,204 323,200 326,200 329,203 332,209 335,218
+    338,228 341,236 344,242 347,244 350,242 353,237 356,230 359,222
+    362,214 365,208 368,202 371,199 374,200 377,204 380,212 383,221
+    386,230 389,238 392,242 395,244 398,241 401,237 404,229 407,222
+    410,214 413,207 416,202 419,199 422,200 425,204 428,211 431,220 434,229 437,237
+    "
+  />
+
+  <!-- Component waves (faded) -->
+  <!-- Wave 1: f1 -->
+  <polyline fill="none" stroke="#f59e0b" stroke-width="1" stroke-dasharray="3,3" opacity="0.45"
+    points="65,238 68,226 71,216 74,207 77,201 80,198 83,198 86,203 89,210 92,220 95,229 98,236 101,240 104,242 107,241 110,237 113,231 116,223 119,215 122,208 125,203 128,200 131,201 134,205 137,212 140,221 143,230 146,237 149,241 152,243 155,241 158,238 161,232 164,224 167,216 170,209 173,204 176,200 179,201 182,205 185,213 188,222 191,231 194,238 197,242 200,243 203,241 206,237 209,231 212,223 215,215 218,208 221,202 224,200 227,201 230,205 233,213 236,222 239,231 242,238 245,242 248,243 251,242 254,238 257,231 260,223 263,215 266,208 269,202 272,200 275,201 278,205 281,213 284,222 287,231 290,238 293,242 296,243 299,242 302,238 305,231 308,223 311,215 314,208 317,202 320,200 323,201 326,205 329,213 332,222 335,231 338,238 341,242 344,243 347,242 350,238 353,231 356,223 359,215 362,208 365,202 368,200 371,201 374,205 377,213 380,222 383,231 386,238 389,242 392,243 395,242 398,237 401,231 404,223 407,215 410,208 413,202 416,200 419,201 422,205 425,213 428,222 431,231 434,238 437,242"
+  />
+  <!-- Wave 2: f2 -->
+  <polyline fill="none" stroke="#ec4899" stroke-width="1" stroke-dasharray="3,3" opacity="0.35"
+    points="65,238 68,233 71,226 74,220 77,215 80,213 83,212 86,213 89,218 92,224 95,230 98,235 101,238 104,239 107,237 110,234 113,230 116,224 119,218 122,214 125,212 128,213 131,216 134,221 137,227 140,232 143,236 146,238 149,238 152,236 155,233 158,228 161,223 164,217 167,213 170,212 173,213 176,217 179,222 182,228 185,233 188,236 191,238 194,238 197,235 200,231 203,226 206,221 209,215 212,212 215,212 218,214 221,219 224,225 227,231 230,236 233,239 236,239 239,237 242,234 245,229 248,223 251,217 254,213 257,212 260,214 263,219 266,225 269,231 272,236 275,239 278,238 281,236 284,233 287,228 290,222 293,216 296,213 299,212 302,214 305,219 308,225 311,231 314,236 317,239 320,238 323,236 326,232 329,227 332,221 335,215 338,212 341,212 344,215 347,220 350,226 353,232 356,237 359,239 362,238 365,235 368,231 371,226 374,220 377,214 380,212 383,213 386,217 389,222 392,228 395,234 398,238 401,239 404,238 407,235 410,230 413,224 416,218 419,214 422,212 425,214 428,218 431,224 434,230 437,236"
+  />
+  <!-- Wave 3: f3 -->
+  <polyline fill="none" stroke="#34d399" stroke-width="1" stroke-dasharray="3,3" opacity="0.3"
+    points="65,238 69,232 73,225 77,219 81,216 85,215 89,218 93,223 97,229 101,234 105,237 109,237 113,233 117,228 121,222 125,217 129,215 133,216 137,220 141,226 145,231 149,235 153,237 157,236 161,232 165,226 169,221 173,217 177,215 181,217 185,221 189,227 193,232 197,236 201,237 205,235 209,230 213,224 217,219 221,216 225,215 229,218 233,223 237,229 241,234 245,237 249,237 253,233 257,227 261,222 265,217 269,215 273,217 277,221 281,226 285,232 289,236 293,237 297,235 301,230 305,225 309,219 313,216 317,215 321,218 325,223 329,229 333,234 337,237 341,236 345,232 349,227 353,221 357,217 361,215 365,217 369,221 373,227 377,232 381,236 385,237 389,235 393,230 397,224 401,219 405,216 409,215 413,218 417,223 421,229 425,234 429,237 433,236 437,232"
+  />
+
+  <!-- Labels on left panel -->
+  <text x="70" y="298" font-size="9" fill="#f59e0b" opacity="0.8">— f₁ = 1 Hz (A=0.55)</text>
+  <text x="175" y="298" font-size="9" fill="#ec4899" opacity="0.8">— f₂ = 3 Hz (A=0.30)</text>
+  <text x="295" y="298" font-size="9" fill="#34d399" opacity="0.8">— f₃ = 5 Hz (A=0.18)</text>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!--  ARROW: Time → Frequency                                   -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <rect x="464" y="172" width="72" height="46" rx="8" fill="#0d1b2a" stroke="#a855f7" stroke-width="1.5"/>
+  <text x="500" y="191" text-anchor="middle" font-size="9" fill="#a855f7" font-weight="bold" letter-spacing="0.5">FOURIER</text>
+  <text x="500" y="203" text-anchor="middle" font-size="9" fill="#a855f7" font-weight="bold" letter-spacing="0.5">TRANSFORM</text>
+  <text x="500" y="213" text-anchor="middle" font-size="11" fill="#e2e8f0">𝔽</text>
+  <line x1="460" y1="195" x2="440" y2="195" stroke="#a855f7" stroke-width="1.5" marker-end="url(#arrowPurple)" stroke-dasharray="none"/>
+  <line x1="540" y1="195" x2="560" y2="195" stroke="#a855f7" stroke-width="1.5" marker-end="url(#arrowPurple)"/>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!--  PANEL 2: Frequency Domain (top-right)                    -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <rect x="540" y="112" width="440" height="185" rx="10" fill="url(#panelGrad)" stroke="#1e3a5f" stroke-width="1.5"/>
+  <text x="760" y="132" text-anchor="middle" font-size="13" font-weight="bold" fill="#a855f7" letter-spacing="1">FREQUENCY DOMAIN  F(ω)</text>
+  <text x="760" y="148" text-anchor="middle" font-size="10" fill="#64748b">"Hidden frequencies revealed"</text>
+
+  <!-- Frequency domain axes -->
+  <line x1="565" y1="272" x2="965" y2="272" stroke="#334155" stroke-width="1.5" marker-end="url(#arrowWhite)"/>
+  <line x1="580" y1="290" x2="580" y2="158" stroke="#334155" stroke-width="1.5" marker-end="url(#arrowWhite)"/>
+  <text x="968" y="276" font-size="10" fill="#94a3b8">f (Hz)</text>
+  <text x="575" y="155" font-size="10" fill="#94a3b8">|F(ω)|</text>
+
+  <!-- Frequency tick marks -->
+  <line x1="645" y1="272" x2="645" y2="276" stroke="#334155" stroke-width="1"/>
+  <line x1="710" y1="272" x2="710" y2="276" stroke="#334155" stroke-width="1"/>
+  <line x1="775" y1="272" x2="775" y2="276" stroke="#334155" stroke-width="1"/>
+  <line x1="840" y1="272" x2="840" y2="276" stroke="#334155" stroke-width="1"/>
+  <line x1="905" y1="272" x2="905" y2="276" stroke="#334155" stroke-width="1"/>
+  <text x="645" y="284" text-anchor="middle" font-size="9" fill="#64748b">1</text>
+  <text x="710" y="284" text-anchor="middle" font-size="9" fill="#64748b">2</text>
+  <text x="775" y="284" text-anchor="middle" font-size="9" fill="#64748b">3</text>
+  <text x="840" y="284" text-anchor="middle" font-size="9" fill="#64748b">4</text>
+  <text x="905" y="284" text-anchor="middle" font-size="9" fill="#64748b">5</text>
+
+  <!-- Amplitude reference lines -->
+  <line x1="578" y1="217" x2="962" y2="217" stroke="#1e3a5f" stroke-width="1" stroke-dasharray="3,4"/>
+  <line x1="578" y1="190" x2="962" y2="190" stroke="#1e3a5f" stroke-width="1" stroke-dasharray="3,4"/>
+  <line x1="578" y1="163" x2="962" y2="163" stroke="#1e3a5f" stroke-width="1" stroke-dasharray="3,4"/>
+  <text x="577" y="220" text-anchor="end" font-size="8" fill="#475569">0.2</text>
+  <text x="577" y="193" text-anchor="end" font-size="8" fill="#475569">0.4</text>
+  <text x="577" y="166" text-anchor="end" font-size="8" fill="#475569">0.6</text>
+
+  <!-- Spike at f=1 (A=0.55): height = 0.55 * 198 = ~109) → y = 272 - 109 = 163 -->
+  <line x1="645" y1="272" x2="645" y2="166" stroke="#f59e0b" stroke-width="12" stroke-linecap="round" opacity="0.9" filter="url(#glow)"/>
+  <circle cx="645" cy="166" r="5" fill="#f59e0b" filter="url(#glow)"/>
+  <text x="645" y="160" text-anchor="middle" font-size="10" fill="#f59e0b" font-weight="bold">0.55</text>
+
+  <!-- Spike at f=3 (A=0.30): height = 0.30 * 198 = ~59) → y = 272 - 59 = 213 -->
+  <line x1="775" y1="272" x2="775" y2="213" stroke="#ec4899" stroke-width="12" stroke-linecap="round" opacity="0.9" filter="url(#glow)"/>
+  <circle cx="775" cy="213" r="5" fill="#ec4899" filter="url(#glow)"/>
+  <text x="775" y="207" text-anchor="middle" font-size="10" fill="#ec4899" font-weight="bold">0.30</text>
+
+  <!-- Spike at f=5 (A=0.18): height = 0.18 * 198 = ~36) → y = 272 - 36 = 236 -->
+  <line x1="905" y1="272" x2="905" y2="236" stroke="#34d399" stroke-width="12" stroke-linecap="round" opacity="0.9" filter="url(#glow)"/>
+  <circle cx="905" cy="236" r="5" fill="#34d399" filter="url(#glow)"/>
+  <text x="905" y="230" text-anchor="middle" font-size="10" fill="#34d399" font-weight="bold">0.18</text>
+
+  <!-- Frequency labels -->
+  <text x="645" y="295" text-anchor="middle" font-size="9" fill="#f59e0b" opacity="0.8">f₁</text>
+  <text x="775" y="295" text-anchor="middle" font-size="9" fill="#ec4899" opacity="0.8">f₂</text>
+  <text x="905" y="295" text-anchor="middle" font-size="9" fill="#34d399" opacity="0.8">f₃</text>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!--  MIDDLE ROW: The "Wrapping" Intuition                      -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <rect x="20" y="310" width="960" height="200" rx="10" fill="url(#panelGrad)" stroke="#1e3a5f" stroke-width="1.5"/>
+  <text x="500" y="330" text-anchor="middle" font-size="13" font-weight="bold" fill="#34d399" letter-spacing="1">THE CORE IDEA: WRAPPING A SIGNAL AROUND A CIRCLE</text>
+
+  <!-- Sub-diagram A: Not resonating (f_test ≠ f_signal) -->
+  <text x="125" y="350" text-anchor="middle" font-size="11" fill="#94a3b8">Off-frequency (no match)</text>
+
+  <!-- Circle A -->
+  <circle cx="125" cy="420" r="65" fill="none" stroke="#334155" stroke-width="1.5"/>
+  <!-- Wrapped path at wrong frequency: traces out a messy flower, center of mass ≈ 0,0 -->
+  <path d="M 190,420 C 188,400 180,382 168,370 C 155,358 138,353 125,355 C 112,353 95,358 82,370 C 70,382 62,400 60,420 C 62,440 70,458 82,470 C 95,482 112,487 125,485 C 138,487 155,482 168,470 C 180,458 188,440 190,420 Z" fill="none" stroke="#00d4ff" stroke-width="1.2" opacity="0.5"/>
+  <!-- Flower petals indicating non-resonance -->
+  <path d="M 125,355 C 145,360 158,380 168,400 C 178,420 178,440 168,455 C 158,470 145,480 125,485 C 105,480 92,470 82,455 C 72,440 72,420 82,400 C 92,380 105,360 125,355" fill="none" stroke="#00d4ff" stroke-width="1.5" opacity="0.4"/>
+  <path d="M 125,355 C 150,365 175,380 185,410 C 175,420 185,440 178,460 C 165,476 145,480 125,485 C 100,478 80,464 70,445 C 60,425 65,400 75,380 C 90,360 110,352 125,355" fill="#00d4ff" fill-opacity="0.04" stroke="#00d4ff" stroke-width="1.2" opacity="0.6"/>
+  <!-- Small dot near center showing center of mass -->
+  <circle cx="126" cy="419" r="3" fill="#64748b"/>
+  <text x="125" y="500" text-anchor="middle" font-size="9" fill="#64748b">Center of mass ≈ (0, 0)</text>
+  <text x="125" y="513" text-anchor="middle" font-size="9" fill="#64748b">|F(ω)| ≈ 0   →  No spike</text>
+
+  <!-- Divider -->
+  <line x1="260" y1="340" x2="260" y2="500" stroke="#1e3a5f" stroke-width="1" stroke-dasharray="4,4"/>
+
+  <!-- Sub-diagram B: Resonating (f_test = f_signal) -->
+  <text x="500" y="350" text-anchor="middle" font-size="11" fill="#94a3b8">At the signal's frequency (resonance)</text>
+
+  <!-- Circle B -->
+  <circle cx="500" cy="420" r="65" fill="none" stroke="#334155" stroke-width="1.5"/>
+  <!-- Wrapped path clustering on one side — a circle shifted -->
+  <!-- When wrapping frequency matches, all the energy piles to one side -->
+  <circle cx="530" cy="420" r="40" fill="none" stroke="#f59e0b" stroke-width="2" opacity="0.8" filter="url(#glow)"/>
+  <circle cx="530" cy="420" r="25" fill="#f59e0b" fill-opacity="0.07" stroke="#f59e0b" stroke-width="1.5" opacity="0.7"/>
+  <!-- Highlight the lopsided mass -->
+  <path d="M 500,355 C 540,358 565,375 575,420 C 565,465 540,482 500,485 C 460,482 435,465 425,420 C 435,375 460,358 500,355" fill="none" stroke="#f59e0b" stroke-width="1.5" opacity="0.35"/>
+  <!-- Center of mass dot shifted right -->
+  <circle cx="530" cy="420" r="5" fill="#f59e0b" filter="url(#glow)"/>
+  <!-- Arrow from origin to center of mass -->
+  <line x1="500" y1="420" x2="525" y2="420" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  <text x="500" y="500" text-anchor="middle" font-size="9" fill="#f59e0b">Center of mass ≠ (0, 0)</text>
+  <text x="500" y="513" text-anchor="middle" font-size="9" fill="#f59e0b">|F(ω)| is large  →  SPIKE!</text>
+
+  <!-- Divider -->
+  <line x1="740" y1="340" x2="740" y2="500" stroke="#1e3a5f" stroke-width="1" stroke-dasharray="4,4"/>
+
+  <!-- Sub-diagram C: Explanation -->
+  <text x="870" y="350" text-anchor="middle" font-size="11" fill="#94a3b8">The magic of e^(−iωt)</text>
+  <text x="870" y="370" text-anchor="middle" font-size="10" fill="#64748b">It winds the signal around</text>
+  <text x="870" y="384" text-anchor="middle" font-size="10" fill="#64748b">the unit circle at rate ω</text>
+
+  <!-- Unit circle sketch -->
+  <circle cx="870" cy="440" r="52" fill="none" stroke="#334155" stroke-width="1.5"/>
+  <!-- Winding spiral -->
+  <path d="M 922,440 C 922,420 915,404 903,393 C 891,382 875,377 858,377" fill="none" stroke="#a855f7" stroke-width="1.5" stroke-dasharray="none" opacity="0.8"/>
+  <path d="M 858,377 C 841,377 825,382 813,393 C 801,404 794,420 794,440" fill="none" stroke="#a855f7" stroke-width="1.5" opacity="0.8"/>
+  <path d="M 794,440 C 794,460 801,476 813,487 C 825,498 841,503 858,503" fill="none" stroke="#a855f7" stroke-width="1.5" opacity="0.6"/>
+  <path d="M 858,503 C 875,503 891,498 903,487 C 915,476 922,460 922,440" fill="none" stroke="#a855f7" stroke-width="1.5" opacity="0.4"/>
+  <!-- Rotating phasor -->
+  <line x1="870" y1="440" x2="907" y2="415" stroke="#e2e8f0" stroke-width="2" marker-end="url(#arrowWhite)"/>
+  <circle cx="907" cy="415" r="4" fill="#a855f7" filter="url(#glow)"/>
+  <!-- Axes -->
+  <line x1="818" y1="440" x2="922" y2="440" stroke="#1e3a5f" stroke-width="1"/>
+  <line x1="870" y1="388" x2="870" y2="492" stroke="#1e3a5f" stroke-width="1"/>
+  <text x="925" y="443" font-size="9" fill="#64748b">Re</text>
+  <text x="872" y="385" font-size="9" fill="#64748b">Im</text>
+  <text x="870" y="513" text-anchor="middle" font-size="9" fill="#a855f7">e^(−iωt) = cos(ωt) − i·sin(ωt)</text>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!--  BOTTOM ROW: Applications & Properties                    -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <rect x="20" y="525" width="300" height="200" rx="10" fill="url(#panelGrad)" stroke="#1e3a5f" stroke-width="1.5"/>
+  <text x="170" y="547" text-anchor="middle" font-size="12" font-weight="bold" fill="#f59e0b" letter-spacing="0.5">KEY PROPERTIES</text>
+
+  <!-- Property rows -->
+  <g font-size="10" fill="#e2e8f0">
+    <text x="35" y="568"><tspan fill="#f59e0b" font-size="12">•</tspan>  Linearity:  F(af+bg) = aF(f) + bF(g)</text>
+    <text x="35" y="590"><tspan fill="#f59e0b" font-size="12">•</tspan>  Time shift:  f(t−t₀)  →  e^(−iωt₀)F(ω)</text>
+    <text x="35" y="612"><tspan fill="#f59e0b" font-size="12">•</tspan>  Convolution:  f*g  →  F·G</text>
+    <text x="35" y="634"><tspan fill="#f59e0b" font-size="12">•</tspan>  Parseval:  energy preserved</text>
+    <text x="35" y="656"><tspan fill="#f59e0b" font-size="12">•</tspan>  Inverse:  f(t) = ∫ F(ω)e^(iωt) dω</text>
+    <text x="35" y="678"><tspan fill="#f59e0b" font-size="12">•</tspan>  Symmetry: if f(t) real → F(−ω)=F*(ω)</text>
+    <text x="35" y="700"><tspan fill="#f59e0b" font-size="12">•</tspan>  Differentiation:  f'(t)  →  iω·F(ω)</text>
+  </g>
+
+  <!-- Panel: Real World Applications -->
+  <rect x="335" y="525" width="310" height="200" rx="10" fill="url(#panelGrad)" stroke="#1e3a5f" stroke-width="1.5"/>
+  <text x="490" y="547" text-anchor="middle" font-size="12" font-weight="bold" fill="#ec4899" letter-spacing="0.5">APPLICATIONS</text>
+
+  <!-- App icons and text -->
+  <g font-size="10" fill="#e2e8f0">
+    <text x="350" y="571"><tspan fill="#ec4899" font-weight="bold">🎵  Audio</tspan>  — equalizers, MP3 compression</text>
+    <text x="350" y="596"><tspan fill="#ec4899" font-weight="bold">📡  Comms</tspan>  — AM/FM radio, WiFi, 5G</text>
+    <text x="350" y="621"><tspan fill="#ec4899" font-weight="bold">🩻  Imaging</tspan>  — MRI, CT scan reconstruction</text>
+    <text x="350" y="646"><tspan fill="#ec4899" font-weight="bold">📷  Vision</tspan>  — JPEG, image filtering</text>
+    <text x="350" y="671"><tspan fill="#ec4899" font-weight="bold">📈  Finance</tspan>  — cycle detection in markets</text>
+    <text x="350" y="696"><tspan fill="#ec4899" font-weight="bold">🔭  Science</tspan>  — spectroscopy, astronomy</text>
+    <text x="350" y="717"><tspan fill="#ec4899" font-weight="bold">⚙️  Solving</tspan>  — differential equations (PDEs)</text>
+  </g>
+
+  <!-- Panel: DFT / FFT -->
+  <rect x="660" y="525" width="320" height="200" rx="10" fill="url(#panelGrad)" stroke="#1e3a5f" stroke-width="1.5"/>
+  <text x="820" y="547" text-anchor="middle" font-size="12" font-weight="bold" fill="#00d4ff" letter-spacing="0.5">DISCRETE FOURIER TRANSFORM</text>
+
+  <!-- DFT formula -->
+  <rect x="675" y="556" width="290" height="28" rx="5" fill="#0d1b2a" stroke="#00d4ff" stroke-width="0.8" opacity="0.7"/>
+  <text x="820" y="574" text-anchor="middle" font-size="12" fill="#e2e8f0" font-family="Courier New, monospace">
+    <tspan fill="#00d4ff">X</tspan><tspan>[k] = Σ x[n]·e</tspan><tspan font-size="9" baseline-shift="super" fill="#34d399">−i2πkn/N</tspan>
+  </text>
+
+  <!-- DFT bar chart (mini) -->
+  <text x="820" y="600" text-anchor="middle" font-size="9" fill="#64748b">Sampled signal (N points) → N frequencies</text>
+  <!-- Mini bar chart -->
+  <g>
+    <rect x="675" y="605" width="290" height="90" rx="4" fill="#0a1628" stroke="#1e3a5f" stroke-width="1"/>
+    <!-- Bars -->
+    <rect x="690" y="670" width="12" height="15" fill="#00d4ff" opacity="0.6"/>
+    <rect x="706" y="660" width="12" height="25" fill="#00d4ff" opacity="0.7"/>
+    <rect x="722" y="643" width="12" height="42" fill="#00d4ff" opacity="0.85"/>
+    <rect x="738" y="658" width="12" height="27" fill="#00d4ff" opacity="0.7"/>
+    <rect x="754" y="665" width="12" height="20" fill="#00d4ff" opacity="0.6"/>
+    <rect x="770" y="670" width="12" height="15" fill="#00d4ff" opacity="0.55"/>
+    <rect x="786" y="668" width="12" height="17" fill="#00d4ff" opacity="0.5"/>
+    <rect x="802" y="640" width="12" height="45" fill="#f59e0b" opacity="0.9" filter="url(#glow)"/>
+    <rect x="818" y="666" width="12" height="19" fill="#00d4ff" opacity="0.5"/>
+    <rect x="834" y="670" width="12" height="15" fill="#00d4ff" opacity="0.5"/>
+    <rect x="850" y="663" width="12" height="22" fill="#00d4ff" opacity="0.55"/>
+    <rect x="866" y="655" width="12" height="30" fill="#ec4899" opacity="0.8"/>
+    <rect x="882" y="668" width="12" height="17" fill="#00d4ff" opacity="0.5"/>
+    <rect x="898" y="670" width="12" height="15" fill="#00d4ff" opacity="0.5"/>
+    <rect x="914" y="660" width="12" height="25" fill="#34d399" opacity="0.8"/>
+    <rect x="930" y="670" width="12" height="15" fill="#00d4ff" opacity="0.5"/>
+    <!-- x-axis -->
+    <line x1="680" y1="685" x2="950" y2="685" stroke="#334155" stroke-width="1"/>
+    <text x="820" y="695" text-anchor="middle" font-size="8" fill="#475569">frequency bins (k = 0, 1, …, N−1)</text>
+    <text x="808" y="638" font-size="7.5" fill="#f59e0b">peak</text>
+  </g>
+  <text x="820" y="718" text-anchor="middle" font-size="9" fill="#64748b">FFT computes this in O(N log N) — 1965, Cooley &amp; Tukey</text>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!--  Footer                                                    -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <text x="500" y="742" text-anchor="middle" font-size="9" fill="#334155">
+    Joseph Fourier (1822) · Every periodic signal is a sum of sines and cosines · ∫ f(t) e^(−iωt) dt
+  </text>
+
+</svg>

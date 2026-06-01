@@ -1,0 +1,645 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 625" width="900" height="625">
+<defs>
+  <style>
+    .btn-g { cursor: pointer; }
+    .btn-g rect { transition: opacity 0.15s; }
+    .btn-g:hover rect { opacity: 0.75; }
+    .tab-g { cursor: pointer; }
+    .tab-g:hover rect { opacity: 0.8; }
+    text { user-select: none; -webkit-user-select: none; }
+  </style>
+  <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#0d1b2a"/>
+    <stop offset="100%" stop-color="#131328"/>
+  </linearGradient>
+</defs>
+
+<!-- Background -->
+<rect width="900" height="625" fill="url(#bgGrad)"/>
+
+<!-- Value guide lines (dashed, at 25 / 50 / 75 of max value) -->
+<!-- BAR_BOTTOM=428, BAR_MAX_H=320: y = 428 - 320*(pct) -->
+<g stroke="#1e2d3e" stroke-width="1" stroke-dasharray="4,8">
+  <line x1="30" y1="348" x2="870" y2="348"/><!-- value≈25 -->
+  <line x1="30" y1="268" x2="870" y2="268"/><!-- value≈50 -->
+  <line x1="30" y1="188" x2="870" y2="188"/><!-- value≈75 -->
+</g>
+<text x="28" y="351" text-anchor="end" fill="#253545"
+      font-family="Arial,sans-serif" font-size="8">25</text>
+<text x="28" y="271" text-anchor="end" fill="#253545"
+      font-family="Arial,sans-serif" font-size="8">50</text>
+<text x="28" y="191" text-anchor="end" fill="#253545"
+      font-family="Arial,sans-serif" font-size="8">75</text>
+
+<!-- Title -->
+<text x="450" y="28" text-anchor="middle" fill="#c8d8e8"
+      font-family="'Segoe UI',Arial,sans-serif" font-size="20" font-weight="bold"
+      letter-spacing="1">Sorting Algorithm Visualizer</text>
+
+<!-- Algorithm description (filled dynamically) -->
+<text id="algo-hint" x="450" y="44" text-anchor="middle"
+      fill="#55687a" font-family="Arial,sans-serif" font-size="11"/>
+
+<!-- Algorithm tabs (built dynamically) -->
+<g id="algo-tabs"/>
+
+<!-- Bars container (built dynamically) -->
+<g id="bars-g"/>
+
+<!-- Bar area border -->
+<rect x="30" y="90" width="840" height="340" rx="4"
+      fill="none" stroke="#1e2d3e" stroke-width="1"/>
+
+<!-- Step description panel -->
+<rect x="30" y="436" width="840" height="26" rx="5" fill="#0d1624"/>
+<text id="step-desc" x="450" y="454" text-anchor="middle"
+      fill="#c0d0e0" font-family="Arial,sans-serif" font-size="12"/>
+
+<!-- ─── Operation Counters ─── -->
+<!-- Comparisons (left panel) -->
+<rect x="30" y="468" width="398" height="22" rx="4" fill="#0a1420"/>
+<text x="42" y="483" fill="#3d5060" font-family="Arial,sans-serif" font-size="9"
+      font-weight="bold" letter-spacing="1">COMPARISONS</text>
+<text id="cmp-counter" x="420" y="483" text-anchor="end"
+      fill="#e0922a" font-family="'Courier New',monospace" font-size="13"
+      font-weight="bold">0</text>
+
+<!-- Writes / Moves (right panel) -->
+<rect x="472" y="468" width="398" height="22" rx="4" fill="#0a1420"/>
+<text x="484" y="483" fill="#3d5060" font-family="Arial,sans-serif" font-size="9"
+      font-weight="bold" letter-spacing="1">WRITES / MOVES</text>
+<text id="swp-counter" x="862" y="483" text-anchor="end"
+      fill="#d63b3b" font-family="'Courier New',monospace" font-size="13"
+      font-weight="bold">0</text>
+
+<!-- Progress bar -->
+<rect x="30" y="496" width="840" height="4" rx="2" fill="#0d1624"/>
+<rect id="progress-bar" x="30" y="496" width="0" height="4" rx="2" fill="#3a6fa0"/>
+
+<!-- Step counter -->
+<text id="step-counter" x="450" y="510" text-anchor="middle"
+      fill="#445566" font-family="Arial,sans-serif" font-size="10"/>
+
+<!-- Control buttons (built dynamically) -->
+<g id="ctrl-btns"/>
+
+<!-- Speed label -->
+<text x="587" y="535" text-anchor="end" fill="#445566"
+      font-family="Arial,sans-serif" font-size="11">Speed:</text>
+
+<!-- Speed buttons (built dynamically) -->
+<g id="speed-btns"/>
+
+<!-- Legend (built dynamically) -->
+<g id="legend-g"/>
+
+<!-- Keyboard hint -->
+<text x="450" y="608" text-anchor="middle" fill="#1e2d3e"
+      font-family="Arial,sans-serif" font-size="9">
+  Space = Play/Pause  ·  ← → = Step  ·  R = Reset  ·  N = New Array  ·  1-5 = Select Algorithm
+</text>
+
+<script type="text/javascript">
+//<![CDATA[
+
+var NS = 'http://www.w3.org/2000/svg';
+
+// ── Layout constants ──────────────────────────────────────────────
+var N        = 16;
+var BAR_X0   = 34;
+var BAR_SLOT = 52;
+var BAR_W    = 44;
+var BAR_BOTTOM = 428;
+var BAR_MAX_H  = 320;
+
+// ── Colors ───────────────────────────────────────────────────────
+var C = {
+  def: '#3a7abf',
+  cmp: '#e0922a',
+  swp: '#d63b3b',
+  srt: '#27ae60',
+  pvt: '#9b59b6',
+  txt: '#c0d0e0',
+  dim: '#445566'
+};
+
+// ── Algorithm metadata ────────────────────────────────────────────
+var ALGO_ORDER = ['bubble', 'selection', 'insertion', 'quick', 'merge'];
+var ALGOS = {
+  bubble:    { name: 'Bubble Sort',    badge: 'O(n²)',      hint: 'Repeatedly swaps adjacent elements that are out of order — simple to understand but slow.' },
+  selection: { name: 'Selection Sort', badge: 'O(n²)',      hint: 'Each pass selects the smallest remaining element and moves it to its final position.' },
+  insertion: { name: 'Insertion Sort', badge: 'O(n²)',      hint: 'Builds a sorted region one element at a time by inserting each element into its correct place.' },
+  quick:     { name: 'Quick Sort',     badge: 'O(n log n)', hint: 'Picks a pivot, partitions elements around it, then recurses on each partition — fast in practice.' },
+  merge:     { name: 'Merge Sort',     badge: 'O(n log n)', hint: 'Divides the array in half, sorts each half, then merges — always O(n log n) regardless of input.' }
+};
+var ALGO_COLORS = {
+  bubble: '#c0392b', selection: '#d35400', insertion: '#b8860b',
+  quick: '#27ae60', merge: '#2980b9'
+};
+
+// ── State ─────────────────────────────────────────────────────────
+var origArray   = [];
+var steps       = [];
+var curStep     = 0;
+var playing     = false;
+var timer       = null;
+var speedMs     = 180;
+var currentAlgo = 'bubble';
+
+// ── Utility ───────────────────────────────────────────────────────
+function el(tag, attrs, txt) {
+  var e = document.createElementNS(NS, tag);
+  if (attrs) for (var k in attrs) e.setAttribute(k, attrs[k]);
+  if (txt !== undefined) e.textContent = txt;
+  return e;
+}
+function clear(id) {
+  var g = document.getElementById(id);
+  while (g.firstChild) g.removeChild(g.firstChild);
+  return g;
+}
+function barH(v) { return Math.max(Math.round(v / 100 * BAR_MAX_H), 10); }
+function barX(i) { return BAR_X0 + i * BAR_SLOT; }
+
+// ── Array generation ──────────────────────────────────────────────
+function genArray() {
+  var used = {}, arr = [];
+  while (arr.length < N) {
+    var v = Math.floor(Math.random() * 90) + 10;
+    if (!used[v]) { used[v] = true; arr.push(v); }
+  }
+  return arr;
+}
+
+// ── Step factory ─────────────────────────────────────────────────
+// Each step records: array snapshot, highlighted indices, counters, description
+function step(a, cmp, swp, srt, pvt, desc, cc, sc) {
+  return {
+    a: a.slice(),
+    cmp: cmp || [],
+    swp: swp || [],
+    srt: srt || [],
+    pvt: (pvt != null) ? pvt : -1,
+    desc: desc || '',
+    cmpC: cc || 0,
+    swpC: sc || 0
+  };
+}
+
+// ══════════════════════════════════════════════════════════════════
+// STEP GENERATORS  (cc = comparison count, sc = write/move count)
+// ══════════════════════════════════════════════════════════════════
+
+// ── Bubble Sort ───────────────────────────────────────────────────
+function bubbleSteps(arr) {
+  var S = [], a = arr.slice(), sorted = [], cc = 0, sc = 0;
+  for (var i = 0; i < a.length - 1; i++) {
+    var swapped = false;
+    for (var j = 0; j < a.length - 1 - i; j++) {
+      cc++;
+      S.push(step(a, [j, j+1], [], sorted, -1,
+        'Pass ' + (i+1) + ': compare ' + a[j] + ' and ' + a[j+1], cc, sc));
+      if (a[j] > a[j+1]) {
+        var t = a[j]; a[j] = a[j+1]; a[j+1] = t;
+        swapped = true;
+        sc += 2;
+        S.push(step(a, [], [j, j+1], sorted, -1,
+          'Swap! ' + a[j+1] + ' > ' + a[j] + ' — larger element moves right', cc, sc));
+      }
+    }
+    sorted = sorted.concat([a.length - 1 - i]);
+    S.push(step(a, [], [], sorted, -1,
+      a[a.length-1-i] + ' has bubbled to its final position', cc, sc));
+    if (!swapped) break;
+  }
+  var all = []; for (var x = 0; x < a.length; x++) all.push(x);
+  S.push(step(a, [], [], all, -1,
+    '✓ Bubble Sort complete — ' + cc + ' comparisons, ' + sc + ' writes', cc, sc));
+  return S;
+}
+
+// ── Selection Sort ────────────────────────────────────────────────
+function selectionSteps(arr) {
+  var S = [], a = arr.slice(), sorted = [], cc = 0, sc = 0;
+  for (var i = 0; i < a.length - 1; i++) {
+    var minIdx = i;
+    S.push(step(a, [i], [], sorted, i,
+      'Pass ' + (i+1) + ': scan for minimum in [' + i + '…' + (a.length-1) + ']', cc, sc));
+    for (var j = i + 1; j < a.length; j++) {
+      cc++;
+      S.push(step(a, [j], [], sorted, minIdx,
+        'Is ' + a[j] + ' < current min (' + a[minIdx] + ')?', cc, sc));
+      if (a[j] < a[minIdx]) {
+        minIdx = j;
+        S.push(step(a, [], [], sorted, minIdx,
+          'New minimum: ' + a[minIdx] + ' at index ' + minIdx, cc, sc));
+      }
+    }
+    if (minIdx !== i) {
+      var t = a[i]; a[i] = a[minIdx]; a[minIdx] = t;
+      sc += 2;
+      S.push(step(a, [], [i, minIdx], sorted, -1,
+        'Place minimum ' + a[i] + ' at index ' + i, cc, sc));
+    }
+    sorted = sorted.concat([i]);
+    S.push(step(a, [], [], sorted, -1,
+      a[i] + ' is in its final position at index ' + i, cc, sc));
+  }
+  sorted = sorted.concat([a.length - 1]);
+  var all = []; for (var x = 0; x < a.length; x++) all.push(x);
+  S.push(step(a, [], [], all, -1,
+    '✓ Selection Sort complete — ' + cc + ' comparisons, ' + sc + ' writes', cc, sc));
+  return S;
+}
+
+// ── Insertion Sort ────────────────────────────────────────────────
+function insertionSteps(arr) {
+  var S = [], a = arr.slice(), cc = 0, sc = 0;
+  function srtRange(n) { var r = []; for (var x = 0; x < n; x++) r.push(x); return r; }
+  S.push(step(a, [], [], [0], -1, 'Index 0 is trivially in sorted order', cc, sc));
+  for (var i = 1; i < a.length; i++) {
+    var key = a[i];
+    S.push(step(a, [i], [], srtRange(i), i,
+      'Pick up ' + key + ' — insert into sorted region [0…' + (i-1) + ']', cc, sc));
+    var j = i - 1;
+    while (j >= 0 && a[j] > key) {
+      cc++;
+      S.push(step(a, [j], [], srtRange(i), -1,
+        a[j] + ' > ' + key + ': shift ' + a[j] + ' right one position', cc, sc));
+      a[j+1] = a[j]; a[j] = key;
+      sc++;
+      S.push(step(a, [], [j, j+1], srtRange(i), -1,
+        'Shifted ' + a[j+1] + ' from index ' + j + ' → ' + (j+1), cc, sc));
+      j--;
+    }
+    if (j >= 0) cc++; // final comparison that ended the while loop
+    S.push(step(a, [], [], srtRange(i+1), -1,
+      key + ' inserted at index ' + (j+1) + '  ·  sorted region: [0…' + i + ']', cc, sc));
+  }
+  var all = []; for (var x = 0; x < a.length; x++) all.push(x);
+  S.push(step(a, [], [], all, -1,
+    '✓ Insertion Sort complete — ' + cc + ' comparisons, ' + sc + ' writes', cc, sc));
+  return S;
+}
+
+// ── Quick Sort ────────────────────────────────────────────────────
+function quickSteps(arr) {
+  var S = [], a = arr.slice(), sortedSet = {}, cc = 0, sc = 0;
+  function srtArr() { var r = []; for (var k in sortedSet) r.push(+k); return r; }
+  function partition(lo, hi) {
+    var pv = a[hi];
+    S.push(step(a, [], [], srtArr(), hi,
+      'Pivot = ' + pv + ' (rightmost of subarray [' + lo + '…' + hi + '])', cc, sc));
+    var store = lo;
+    for (var j = lo; j < hi; j++) {
+      cc++;
+      S.push(step(a, [j], [], srtArr(), hi,
+        a[j] + ' vs pivot ' + pv + ': ' + (a[j] <= pv ? '≤ pivot → move left' : '> pivot → skip right'), cc, sc));
+      if (a[j] <= pv) {
+        if (store !== j) {
+          var t = a[store]; a[store] = a[j]; a[j] = t;
+          sc += 2;
+          S.push(step(a, [], [store, j], srtArr(), hi,
+            'Swap ' + a[store] + ' ↔ ' + a[j] + ' to grow left partition', cc, sc));
+        }
+        store++;
+      }
+    }
+    var t = a[store]; a[store] = a[hi]; a[hi] = t;
+    sc += 2;
+    sortedSet[store] = true;
+    S.push(step(a, [], [store, hi], srtArr(), -1,
+      'Pivot ' + pv + ' placed at final index ' + store, cc, sc));
+    return store;
+  }
+  function qs(lo, hi) {
+    if (lo >= hi) { if (lo === hi) sortedSet[lo] = true; return; }
+    S.push(step(a, [], [], srtArr(), -1,
+      'Now sorting subarray [' + lo + '…' + hi + ']', cc, sc));
+    var p = partition(lo, hi);
+    qs(lo, p - 1); qs(p + 1, hi);
+  }
+  qs(0, a.length - 1);
+  var all = []; for (var x = 0; x < a.length; x++) all.push(x);
+  S.push(step(a, [], [], all, -1,
+    '✓ Quick Sort complete — ' + cc + ' comparisons, ' + sc + ' writes', cc, sc));
+  return S;
+}
+
+// ── Merge Sort ────────────────────────────────────────────────────
+function mergeSteps(arr) {
+  var S = [], a = arr.slice(), sortedSet = {}, cc = 0, sc = 0;
+  function srtArr() { var r = []; for (var k in sortedSet) r.push(+k); return r; }
+  function merge(lo, mid, hi) {
+    var L = a.slice(lo, mid+1), R = a.slice(mid+1, hi+1);
+    S.push(step(a, [], [], srtArr(), -1,
+      'Merge [' + lo + '…' + mid + '] with [' + (mid+1) + '…' + hi + ']', cc, sc));
+    var i = 0, j = 0, k = lo;
+    while (i < L.length && j < R.length) {
+      cc++;
+      var chosen, desc;
+      if (L[i] <= R[j]) {
+        desc = L[i] + ' ≤ ' + R[j] + ' → take ' + L[i] + ' from left half';
+        chosen = L[i++];
+      } else {
+        desc = L[i] + ' > ' + R[j] + ' → take ' + R[j] + ' from right half';
+        chosen = R[j++];
+      }
+      a[k] = chosen; sc++;
+      S.push(step(a, [], [k], srtArr(), -1,
+        desc + ' → place at index ' + k, cc, sc));
+      k++;
+    }
+    while (i < L.length) { a[k++] = L[i++]; sc++; }
+    while (j < R.length) { a[k++] = R[j++]; sc++; }
+    for (var x = lo; x <= hi; x++) sortedSet[x] = true;
+    S.push(step(a, [], [], srtArr(), -1,
+      'Segment [' + lo + '…' + hi + '] merged and in sorted order', cc, sc));
+  }
+  function ms(lo, hi) {
+    if (lo >= hi) { sortedSet[lo] = true; return; }
+    var mid = Math.floor((lo + hi) / 2);
+    S.push(step(a, [], [], srtArr(), -1,
+      'Divide [' + lo + '…' + hi + '] → [' + lo + '…' + mid + '] | [' + (mid+1) + '…' + hi + ']', cc, sc));
+    ms(lo, mid); ms(mid + 1, hi);
+    // Temporarily unmark — elements are being rearranged, not yet in final sorted form
+    for (var x = lo; x <= hi; x++) delete sortedSet[x];
+    merge(lo, mid, hi);
+  }
+  ms(0, a.length - 1);
+  var all = []; for (var x = 0; x < a.length; x++) all.push(x);
+  S.push(step(a, [], [], all, -1,
+    '✓ Merge Sort complete — ' + cc + ' comparisons, ' + sc + ' writes', cc, sc));
+  return S;
+}
+
+// ══════════════════════════════════════════════════════════════════
+// UI BUILDING
+// ══════════════════════════════════════════════════════════════════
+
+function buildTabs() {
+  var g = clear('algo-tabs');
+  var tabW = 840 / ALGO_ORDER.length;
+  ALGO_ORDER.forEach(function(algo, idx) {
+    var info = ALGOS[algo], col = ALGO_COLORS[algo];
+    var x = 30 + idx * tabW, isActive = (algo === currentAlgo);
+    var grp = el('g', { 'class': 'tab-g' });
+    grp.appendChild(el('rect', {
+      x: x+1, y: 52, width: tabW-2, height: 32, rx: 5,
+      fill: isActive ? col : '#111d2b',
+      stroke: isActive ? col : '#1e2d3e', 'stroke-width': 1
+    }));
+    grp.appendChild(el('text', {
+      x: x + tabW/2, y: 66, 'text-anchor': 'middle',
+      fill: isActive ? '#fff' : '#55687a',
+      'font-family': 'Arial,sans-serif', 'font-size': '11',
+      'font-weight': isActive ? 'bold' : 'normal'
+    }, info.name));
+    grp.appendChild(el('text', {
+      x: x + tabW/2, y: 79, 'text-anchor': 'middle',
+      fill: isActive ? 'rgba(255,255,255,0.75)' : '#334455',
+      'font-family': 'Arial,sans-serif', 'font-size': '9'
+    }, info.badge));
+    grp.addEventListener('click', (function(a) { return function() { selectAlgo(a); }; })(algo));
+    g.appendChild(grp);
+  });
+}
+
+function buildCtrlBtns() {
+  var g = clear('ctrl-btns');
+  var defs = [
+    { id: 'btn-prev',  label: '◀ Prev',  x: 30,  w: 90,  action: function() { stepTo(curStep - 1); } },
+    { id: 'btn-pp',    label: '▶ Play',  x: 130, w: 110, action: togglePlay },
+    { id: 'btn-next',  label: 'Next ▶',  x: 250, w: 90,  action: function() { stepTo(curStep + 1); } },
+    { id: 'btn-reset', label: '↺ Reset', x: 370, w: 90,  action: resetSort },
+    { id: 'btn-new',   label: '⟳ New',   x: 470, w: 90,  action: newArray }
+  ];
+  defs.forEach(function(d) {
+    var grp = el('g', { 'class': 'btn-g' });
+    grp.appendChild(el('rect', {
+      id: d.id + '-rect', x: d.x, y: 517, width: d.w, height: 26, rx: 5, fill: '#142030'
+    }));
+    grp.appendChild(el('text', {
+      id: d.id + '-txt', x: d.x + d.w/2, y: 535, 'text-anchor': 'middle',
+      fill: '#9bbad5', 'font-family': 'Arial,sans-serif', 'font-size': '12'
+    }, d.label));
+    grp.addEventListener('click', d.action);
+    g.appendChild(grp);
+  });
+}
+
+function buildSpeedBtns() {
+  var g = clear('speed-btns');
+  var speeds = [
+    { lbl: 'Slow', ms: 500, x: 590 },
+    { lbl: 'Med',  ms: 180, x: 650 },
+    { lbl: 'Fast', ms: 50,  x: 710 },
+    { lbl: 'Step', ms: 0,   x: 770 }
+  ];
+  speeds.forEach(function(s) {
+    var isActive = (s.ms === speedMs);
+    var grp = el('g', { 'class': 'btn-g' });
+    grp.appendChild(el('rect', {
+      id: 'spd-rect-' + s.ms, x: s.x, y: 517, width: 52, height: 26, rx: 5,
+      fill: isActive ? '#1a3a5c' : '#111d2b'
+    }));
+    grp.appendChild(el('text', {
+      id: 'spd-txt-' + s.ms, x: s.x + 26, y: 535, 'text-anchor': 'middle',
+      fill: isActive ? '#7ec8e3' : '#55687a',
+      'font-family': 'Arial,sans-serif', 'font-size': '11'
+    }, s.lbl));
+    grp.addEventListener('click', (function(ms) { return function() { setSpeed(ms); }; })(s.ms));
+    g.appendChild(grp);
+  });
+}
+
+function buildLegend() {
+  var g = clear('legend-g');
+  var items = [
+    { col: C.def, lbl: 'Default'          },
+    { col: C.cmp, lbl: 'Comparing'        },
+    { col: C.swp, lbl: 'Swapping/Placing' },
+    { col: C.srt, lbl: 'Sorted'           },
+    { col: C.pvt, lbl: 'Pivot'            }
+  ];
+  var totalW = 660, startX = 120, itemW = totalW / items.length;
+  items.forEach(function(it, i) {
+    var x = startX + i * itemW;
+    g.appendChild(el('rect', { x: x, y: 562, width: 12, height: 12, rx: 2, fill: it.col }));
+    g.appendChild(el('text', {
+      x: x + 16, y: 573, fill: C.dim,
+      'font-family': 'Arial,sans-serif', 'font-size': '10'
+    }, it.lbl));
+  });
+}
+
+function createBars() {
+  var g = clear('bars-g');
+  for (var i = 0; i < N; i++) {
+    g.appendChild(el('rect', { id: 'bar-' + i, x: barX(i), rx: 3, width: BAR_W }));
+    g.appendChild(el('text', {
+      id: 'bv-' + i, x: barX(i) + BAR_W/2, 'text-anchor': 'middle',
+      'font-family': 'Arial,sans-serif', 'font-size': '9', fill: '#889aab'
+    }));
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════
+// RENDERING
+// ══════════════════════════════════════════════════════════════════
+
+function renderStep(s) {
+  var cmpSet = {}, swpSet = {}, srtSet = {};
+  s.cmp.forEach(function(i) { cmpSet[i] = true; });
+  s.swp.forEach(function(i) { swpSet[i] = true; });
+  s.srt.forEach(function(i) { srtSet[i] = true; });
+
+  for (var i = 0; i < N; i++) {
+    var bar = document.getElementById('bar-' + i);
+    var bv  = document.getElementById('bv-'  + i);
+    var val = s.a[i], h = barH(val), y = BAR_BOTTOM - h;
+    bar.setAttribute('y', y);
+    bar.setAttribute('height', h);
+    // Color priority: swap > compare > pivot > sorted > default
+    var col = C.def;
+    if (srtSet[i])  col = C.srt;
+    if (s.pvt === i) col = C.pvt;
+    if (cmpSet[i])  col = C.cmp;
+    if (swpSet[i])  col = C.swp;
+    bar.setAttribute('fill', col);
+    if (h > 20) { bv.setAttribute('y', y - 3); bv.textContent = val; }
+    else bv.textContent = '';
+  }
+
+  document.getElementById('step-desc').textContent  = s.desc || '';
+  document.getElementById('cmp-counter').textContent = s.cmpC;
+  document.getElementById('swp-counter').textContent = s.swpC;
+  document.getElementById('step-counter').textContent =
+    'Step ' + (curStep + 1) + ' of ' + steps.length;
+
+  var pct = (steps.length > 1) ? curStep / (steps.length - 1) : 1;
+  document.getElementById('progress-bar').setAttribute('width', Math.round(pct * 840));
+
+  var ppTxt = document.getElementById('btn-pp-txt');
+  if (ppTxt) ppTxt.textContent = playing ? '⏸ Pause' : '▶ Play';
+}
+
+// ══════════════════════════════════════════════════════════════════
+// CONTROLS
+// ══════════════════════════════════════════════════════════════════
+
+function selectAlgo(algo) {
+  if (playing) stopPlay();
+  currentAlgo = algo;
+  buildTabs();
+  document.getElementById('algo-hint').textContent = ALGOS[algo].hint;
+  computeSteps();
+  renderStep(steps[0]);
+}
+
+function computeSteps() {
+  switch (currentAlgo) {
+    case 'bubble':    steps = bubbleSteps(origArray);    break;
+    case 'selection': steps = selectionSteps(origArray); break;
+    case 'insertion': steps = insertionSteps(origArray); break;
+    case 'quick':     steps = quickSteps(origArray);     break;
+    case 'merge':     steps = mergeSteps(origArray);     break;
+  }
+  curStep = 0;
+}
+
+function stepTo(idx) {
+  if (idx < 0 || idx >= steps.length) return;
+  curStep = idx;
+  renderStep(steps[curStep]);
+}
+
+function togglePlay() {
+  if (speedMs === 0) { stepTo(curStep + 1); return; }
+  if (playing) stopPlay(); else startPlay();
+}
+
+function startPlay() {
+  if (curStep >= steps.length - 1) curStep = 0;
+  playing = true;
+  var ppTxt = document.getElementById('btn-pp-txt');
+  if (ppTxt) ppTxt.textContent = '⏸ Pause';
+  function tick() {
+    if (!playing || curStep >= steps.length - 1) {
+      playing = false;
+      var t = document.getElementById('btn-pp-txt');
+      if (t) t.textContent = '▶ Play';
+      return;
+    }
+    curStep++;
+    renderStep(steps[curStep]);
+    timer = setTimeout(tick, speedMs);
+  }
+  timer = setTimeout(tick, speedMs);
+}
+
+function stopPlay() {
+  playing = false;
+  if (timer) { clearTimeout(timer); timer = null; }
+  var t = document.getElementById('btn-pp-txt');
+  if (t) t.textContent = '▶ Play';
+}
+
+function resetSort()  { stopPlay(); computeSteps(); renderStep(steps[0]); }
+function newArray()   { stopPlay(); origArray = genArray(); computeSteps(); createBars(); renderStep(steps[0]); }
+
+function setSpeed(ms) {
+  speedMs = ms;
+  [500, 180, 50, 0].forEach(function(m) {
+    var r = document.getElementById('spd-rect-' + m);
+    var t = document.getElementById('spd-txt-'  + m);
+    var a = (m === ms);
+    if (r) r.setAttribute('fill', a ? '#1a3a5c' : '#111d2b');
+    if (t) t.setAttribute('fill', a ? '#7ec8e3' : '#55687a');
+  });
+  var t = document.getElementById('btn-pp-txt');
+  if (t) t.textContent = (ms === 0) ? '▶ Step' : '▶ Play';
+  if (playing && ms === 0) stopPlay();
+}
+
+// ── Keyboard shortcuts ────────────────────────────────────────────
+document.addEventListener('keydown', function(e) {
+  switch (e.key) {
+    case ' ':           togglePlay(); e.preventDefault(); break;
+    case 'ArrowRight':  stepTo(curStep + 1); break;
+    case 'ArrowLeft':   stepTo(curStep - 1); break;
+    case 'r': case 'R': resetSort(); break;
+    case 'n': case 'N': newArray();  break;
+    case '1': selectAlgo('bubble');    break;
+    case '2': selectAlgo('selection'); break;
+    case '3': selectAlgo('insertion'); break;
+    case '4': selectAlgo('quick');     break;
+    case '5': selectAlgo('merge');     break;
+  }
+});
+
+// ══════════════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════════════
+
+function init() {
+  origArray = genArray();
+  buildTabs();
+  buildCtrlBtns();
+  buildSpeedBtns();
+  buildLegend();
+  createBars();
+  document.getElementById('algo-hint').textContent = ALGOS[currentAlgo].hint;
+  computeSteps();
+  renderStep(steps[0]);
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+
+//]]>
+</script>
+</svg>

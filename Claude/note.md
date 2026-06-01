@@ -1,0 +1,3 @@
+T2 Claude: 这是一个 GitVault/GitHub Clone 类 full-stack 平台，目标包含仓库管理、Issues、PR、Actions、搜索、认证、数据库和 Redis 等完整协作开发功能，架构上比单纯静态页面更接近真实产品。但以 Claude 版本为例，原始项目依赖配置不一致：@codemirror/lang-go@^6.0.5 在 npm 上不存在，同时 next-auth 和 nodemailer 也存在版本约束冲突，导致 npm install 无法完成；因此 next、prisma、tsx 等本地命令都无法生成。Docker 侧数据库和 Redis 可以启动，但前端/应用层无法在不修改依赖配置的情况下原样跑起来，所以目前不算有对应的完整可录制展示结果。
+
+T4: TypeScript 终端 demo，不是浏览器前端。它主要展示 rental platform 的领域模型、agent 流程和 marketplace lifecycle；可以接入 Claude API，但没有配置 API key 时也有 demo/fallback 行为。

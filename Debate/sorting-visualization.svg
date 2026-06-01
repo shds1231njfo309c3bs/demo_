@@ -1,0 +1,597 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" width="900" height="600">
+  <defs>
+    <style>
+      text { font-family: Arial, sans-serif; }
+      .title { font-size: 24px; font-weight: bold; fill: #333; }
+      .subtitle { font-size: 14px; fill: #666; }
+      .label { font-size: 12px; fill: #333; }
+      .info { font-size: 14px; fill: #333; }
+      .button { cursor: pointer; }
+      .button rect { fill: #4CAF50; stroke: #388E3C; stroke-width: 2; }
+      .button:hover rect { fill: #66BB6A; }
+      .button text { fill: white; font-size: 14px; font-weight: bold; text-anchor: middle; dominant-baseline: middle; }
+      .algo-btn rect { fill: #2196F3; stroke: #1976D2; }
+      .algo-btn:hover rect { fill: #42A5F5; }
+      .algo-btn.active rect { fill: #FF9800; stroke: #F57C00; }
+      .bar { stroke: #333; stroke-width: 1; }
+      .bar.default { fill: #64B5F6; }
+      .bar.compare { fill: #FFD54F; }
+      .bar.swap { fill: #EF5350; }
+      .bar.sorted { fill: #66BB6A; }
+      .bar.pivot { fill: #AB47BC; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="600" fill="#f5f5f5"/>
+
+  <!-- Title -->
+  <text x="450" y="30" class="title" text-anchor="middle">Sorting Algorithm Visualization</text>
+  <text x="450" y="50" class="subtitle" text-anchor="middle">Watch how different algorithms organize data step by step</text>
+
+  <!-- Algorithm Selection Buttons -->
+  <g id="btn-bubble" class="button algo-btn" transform="translate(20, 70)" onclick="selectAlgorithm('bubble')">
+    <rect width="100" height="30" rx="5"/>
+    <text x="50" y="15">Bubble Sort</text>
+  </g>
+  <g id="btn-selection" class="button algo-btn" transform="translate(130, 70)" onclick="selectAlgorithm('selection')">
+    <rect width="100" height="30" rx="5"/>
+    <text x="50" y="15">Selection</text>
+  </g>
+  <g id="btn-insertion" class="button algo-btn" transform="translate(240, 70)" onclick="selectAlgorithm('insertion')">
+    <rect width="100" height="30" rx="5"/>
+    <text x="50" y="15">Insertion</text>
+  </g>
+  <g id="btn-quick" class="button algo-btn" transform="translate(350, 70)" onclick="selectAlgorithm('quick')">
+    <rect width="100" height="30" rx="5"/>
+    <text x="50" y="15">Quick Sort</text>
+  </g>
+  <g id="btn-merge" class="button algo-btn" transform="translate(460, 70)" onclick="selectAlgorithm('merge')">
+    <rect width="100" height="30" rx="5"/>
+    <text x="50" y="15">Merge Sort</text>
+  </g>
+
+  <!-- Control Buttons -->
+  <g id="btn-start" class="button" transform="translate(580, 70)" onclick="startSort()">
+    <rect width="80" height="30" rx="5"/>
+    <text x="40" y="15">Start</text>
+  </g>
+  <g id="btn-pause" class="button" transform="translate(670, 70)" onclick="pauseSort()">
+    <rect width="80" height="30" rx="5"/>
+    <text x="40" y="15">Pause</text>
+  </g>
+  <g id="btn-reset" class="button" transform="translate(760, 70)" onclick="resetSort()">
+    <rect width="80" height="30" rx="5"/>
+    <text x="40" y="15">Reset</text>
+  </g>
+
+  <!-- Speed Control -->
+  <text x="860" y="85" class="label" text-anchor="end">Speed:</text>
+  <g transform="translate(700, 95)">
+    <rect x="0" y="0" width="150" height="10" fill="#ddd" rx="5"/>
+    <rect id="speed-bar" x="0" y="0" width="75" height="10" fill="#4CAF50" rx="5"/>
+    <rect x="0" y="-5" width="150" height="20" fill="transparent" cursor="pointer" onclick="adjustSpeed(evt)"/>
+  </g>
+
+  <!-- Visualization Area -->
+  <rect x="20" y="120" width="860" height="300" fill="white" stroke="#ccc" stroke-width="2" rx="5"/>
+  <g id="bars-container" transform="translate(40, 400)"></g>
+
+  <!-- Legend -->
+  <g transform="translate(40, 440)">
+    <rect x="0" y="0" width="20" height="20" class="bar default"/>
+    <text x="25" y="15" class="label">Unsorted</text>
+    
+    <rect x="100" y="0" width="20" height="20" class="bar compare"/>
+    <text x="125" y="15" class="label">Comparing</text>
+    
+    <rect x="210" y="0" width="20" height="20" class="bar swap"/>
+    <text x="235" y="15" class="label">Swapping</text>
+    
+    <rect x="310" y="0" width="20" height="20" class="bar pivot"/>
+    <text x="335" y="15" class="label">Pivot</text>
+    
+    <rect x="400" y="0" width="20" height="20" class="bar sorted"/>
+    <text x="425" y="15" class="label">Sorted</text>
+  </g>
+
+  <!-- Info Panel -->
+  <rect x="20" y="480" width="860" height="100" fill="white" stroke="#ccc" stroke-width="2" rx="5"/>
+  <text id="algorithm-name" x="30" y="505" class="info" font-weight="bold">Algorithm: Bubble Sort</text>
+  <text id="algorithm-desc" x="30" y="525" class="label">Repeatedly steps through the list, compares adjacent elements and swaps them if they are in wrong order.</text>
+  <text id="step-info" x="30" y="545" class="label" fill="#1976D2">Click "Start" to begin visualization</text>
+  
+  <!-- Statistics -->
+  <text id="comparisons" x="30" y="570" class="label">Comparisons: 0</text>
+  <text id="swaps" x="200" y="570" class="label">Swaps: 0</text>
+  <text id="time-complexity" x="350" y="570" class="label">Time Complexity: O(n²)</text>
+
+  <script type="text/javascript"><![CDATA[
+    // Configuration
+    const ARRAY_SIZE = 20;
+    const MAX_VALUE = 100;
+    const BAR_WIDTH = 38;
+    const BAR_GAP = 4;
+    
+    // State
+    let array = [];
+    let bars = [];
+    let currentAlgorithm = 'bubble';
+    let isRunning = false;
+    let isPaused = false;
+    let animationSpeed = 500;
+    let comparisons = 0;
+    let swaps = 0;
+    let animationId = null;
+    
+    // Algorithm descriptions
+    const algorithmInfo = {
+      bubble: {
+        name: 'Bubble Sort',
+        desc: 'Repeatedly steps through the list, compares adjacent elements and swaps them if they are in wrong order. Like bubbles rising to the surface.',
+        complexity: 'O(n²)'
+      },
+      selection: {
+        name: 'Selection Sort',
+        desc: 'Divides the list into sorted and unsorted regions, repeatedly finds the minimum element from unsorted part and puts it at the end of sorted part.',
+        complexity: 'O(n²)'
+      },
+      insertion: {
+        name: 'Insertion Sort',
+        desc: 'Builds the sorted array one item at a time by taking elements from unsorted part and inserting them into correct position in sorted part.',
+        complexity: 'O(n²)'
+      },
+      quick: {
+        name: 'Quick Sort',
+        desc: 'Divides array using a pivot element, places smaller elements to left and larger to right, then recursively sorts sub-arrays.',
+        complexity: 'O(n log n)'
+      },
+      merge: {
+        name: 'Merge Sort',
+        desc: 'Divides the array into halves, recursively sorts them, then merges the sorted halves back together.',
+        complexity: 'O(n log n)'
+      }
+    };
+    
+    // Initialize
+    function init() {
+      generateArray();
+      selectAlgorithm('bubble');
+    }
+    
+    function generateArray() {
+      array = [];
+      for (let i = 0; i < ARRAY_SIZE; i++) {
+        array.push(Math.floor(Math.random() * MAX_VALUE) + 10);
+      }
+      createBars();
+      resetStats();
+    }
+    
+    function createBars() {
+      const container = document.getElementById('bars-container');
+      container.innerHTML = '';
+      bars = [];
+      
+      for (let i = 0; i < array.length; i++) {
+        const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        
+        const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        rect.setAttribute('x', i * (BAR_WIDTH + BAR_GAP));
+        rect.setAttribute('y', -array[i] * 2.5);
+        rect.setAttribute('width', BAR_WIDTH);
+        rect.setAttribute('height', array[i] * 2.5);
+        rect.setAttribute('class', 'bar default');
+        
+        const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        text.setAttribute('x', i * (BAR_WIDTH + BAR_GAP) + BAR_WIDTH / 2);
+        text.setAttribute('y', -array[i] * 2.5 - 5);
+        text.setAttribute('text-anchor', 'middle');
+        text.setAttribute('class', 'label');
+        text.setAttribute('font-size', '10');
+        text.textContent = array[i];
+        
+        g.appendChild(rect);
+        g.appendChild(text);
+        container.appendChild(g);
+        
+        bars.push({ rect, text, g });
+      }
+    }
+    
+    function updateBar(index, value, className) {
+      if (bars[index]) {
+        bars[index].rect.setAttribute('height', value * 2.5);
+        bars[index].rect.setAttribute('y', -value * 2.5);
+        bars[index].rect.setAttribute('class', 'bar ' + className);
+        bars[index].text.setAttribute('y', -value * 2.5 - 5);
+        bars[index].text.textContent = value;
+      }
+    }
+    
+    function setBarClass(index, className) {
+      if (bars[index]) {
+        bars[index].rect.setAttribute('class', 'bar ' + className);
+      }
+    }
+    
+    function swapBars(i, j) {
+      const temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+      
+      updateBar(i, array[i], 'swap');
+      updateBar(j, array[j], 'swap');
+    }
+    
+    function sleep(ms) {
+      return new Promise(resolve => {
+        animationId = setTimeout(resolve, ms);
+      });
+    }
+    
+    async function checkPause() {
+      while (isPaused && isRunning) {
+        await sleep(100);
+      }
+    }
+    
+    function resetStats() {
+      comparisons = 0;
+      swaps = 0;
+      updateStats();
+    }
+    
+    function updateStats() {
+      document.getElementById('comparisons').textContent = 'Comparisons: ' + comparisons;
+      document.getElementById('swaps').textContent = 'Swaps: ' + swaps;
+    }
+    
+    function updateStepInfo(text) {
+      document.getElementById('step-info').textContent = text;
+    }
+    
+    // Algorithm Selection
+    function selectAlgorithm(algo) {
+      if (isRunning) return;
+      
+      currentAlgorithm = algo;
+      
+      // Update button styles
+      document.querySelectorAll('.algo-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById('btn-' + algo).classList.add('active');
+      
+      // Update info panel
+      const info = algorithmInfo[algo];
+      document.getElementById('algorithm-name').textContent = 'Algorithm: ' + info.name;
+      document.getElementById('algorithm-desc').textContent = info.desc;
+      document.getElementById('time-complexity').textContent = 'Time Complexity: ' + info.complexity;
+      updateStepInfo('Click "Start" to begin visualization');
+      
+      resetSort();
+    }
+    
+    // Controls
+    async function startSort() {
+      if (isRunning) return;
+      isRunning = true;
+      isPaused = false;
+      
+      updateStepInfo('Sorting in progress...');
+      
+      switch (currentAlgorithm) {
+        case 'bubble':
+          await bubbleSort();
+          break;
+        case 'selection':
+          await selectionSort();
+          break;
+        case 'insertion':
+          await insertionSort();
+          break;
+        case 'quick':
+          await quickSort(0, array.length - 1);
+          break;
+        case 'merge':
+          await mergeSort(0, array.length - 1);
+          break;
+      }
+      
+      if (isRunning) {
+        // Mark all as sorted
+        for (let i = 0; i < array.length; i++) {
+          setBarClass(i, 'sorted');
+        }
+        updateStepInfo('Sorting complete! Array is now fully sorted.');
+      }
+      
+      isRunning = false;
+    }
+    
+    function pauseSort() {
+      isPaused = !isPaused;
+      updateStepInfo(isPaused ? 'Paused. Click Pause again to resume.' : 'Resuming...');
+    }
+    
+    function resetSort() {
+      isRunning = false;
+      isPaused = false;
+      if (animationId) {
+        clearTimeout(animationId);
+      }
+      generateArray();
+      updateStepInfo('Array reset. Click "Start" to begin.');
+    }
+    
+    function adjustSpeed(evt) {
+      const rect = evt.target.getBoundingClientRect();
+      const x = evt.clientX - rect.left;
+      const percentage = Math.max(0, Math.min(1, x / 150));
+      document.getElementById('speed-bar').setAttribute('width', percentage * 150);
+      animationSpeed = 1000 - (percentage * 900); // 100ms to 1000ms
+    }
+    
+    // Sorting Algorithms
+    async function bubbleSort() {
+      const n = array.length;
+      
+      for (let i = 0; i < n - 1; i++) {
+        for (let j = 0; j < n - i - 1; j++) {
+          if (!isRunning) return;
+          await checkPause();
+          
+          // Highlight comparison
+          setBarClass(j, 'compare');
+          setBarClass(j + 1, 'compare');
+          comparisons++;
+          updateStats();
+          updateStepInfo('Comparing elements at positions ' + j + ' and ' + (j + 1));
+          
+          await sleep(animationSpeed);
+          
+          if (array[j] > array[j + 1]) {
+            // Swap
+            swapBars(j, j + 1);
+            swaps++;
+            updateStats();
+            updateStepInfo('Swapping: ' + array[j] + ' > ' + array[j + 1]);
+            await sleep(animationSpeed);
+          }
+          
+          // Reset colors
+          setBarClass(j, 'default');
+          setBarClass(j + 1, 'default');
+        }
+        // Mark as sorted
+        setBarClass(n - i - 1, 'sorted');
+      }
+      setBarClass(0, 'sorted');
+    }
+    
+    async function selectionSort() {
+      const n = array.length;
+      
+      for (let i = 0; i < n - 1; i++) {
+        let minIdx = i;
+        setBarClass(i, 'pivot');
+        updateStepInfo('Finding minimum element starting from position ' + i);
+        
+        for (let j = i + 1; j < n; j++) {
+          if (!isRunning) return;
+          await checkPause();
+          
+          setBarClass(j, 'compare');
+          comparisons++;
+          updateStats();
+          
+          await sleep(animationSpeed / 2);
+          
+          if (array[j] < array[minIdx]) {
+            if (minIdx !== i) setBarClass(minIdx, 'default');
+            minIdx = j;
+            setBarClass(minIdx, 'pivot');
+            updateStepInfo('New minimum found: ' + array[minIdx] + ' at position ' + minIdx);
+          } else {
+            setBarClass(j, 'default');
+          }
+        }
+        
+        if (minIdx !== i) {
+          swapBars(i, minIdx);
+          swaps++;
+          updateStats();
+          updateStepInfo('Swapping minimum to position ' + i);
+          await sleep(animationSpeed);
+          setBarClass(minIdx, 'default');
+        }
+        
+        setBarClass(i, 'sorted');
+      }
+      setBarClass(n - 1, 'sorted');
+    }
+    
+    async function insertionSort() {
+      const n = array.length;
+      setBarClass(0, 'sorted');
+      updateStepInfo('Starting with first element as sorted');
+      
+      for (let i = 1; i < n; i++) {
+        if (!isRunning) return;
+        await checkPause();
+        
+        let key = array[i];
+        let j = i - 1;
+        
+        setBarClass(i, 'pivot');
+        updateStepInfo('Inserting element ' + key + ' into sorted portion');
+        await sleep(animationSpeed);
+        
+        while (j >= 0 && array[j] > key) {
+          if (!isRunning) return;
+          await checkPause();
+          
+          setBarClass(j, 'compare');
+          comparisons++;
+          updateStats();
+          
+          array[j + 1] = array[j];
+          updateBar(j + 1, array[j], 'swap');
+          swaps++;
+          updateStats();
+          
+          await sleep(animationSpeed);
+          setBarClass(j, 'sorted');
+          j--;
+        }
+        
+        array[j + 1] = key;
+        updateBar(j + 1, key, 'sorted');
+        
+        // Mark all sorted so far
+        for (let k = 0; k <= i; k++) {
+          setBarClass(k, 'sorted');
+        }
+        
+        updateStepInfo('Element ' + key + ' placed at position ' + (j + 1));
+      }
+    }
+    
+    async function quickSort(low, high) {
+      if (low < high) {
+        let pi = await partition(low, high);
+        if (!isRunning) return;
+        
+        await quickSort(low, pi - 1);
+        await quickSort(pi + 1, high);
+      } else if (low >= 0 && high >= 0 && low < array.length && high < array.length) {
+        setBarClass(low, 'sorted');
+      }
+    }
+    
+    async function partition(low, high) {
+      let pivot = array[high];
+      setBarClass(high, 'pivot');
+      updateStepInfo('Pivot selected: ' + pivot + ' (last element)');
+      await sleep(animationSpeed);
+      
+      let i = low - 1;
+      
+      for (let j = low; j < high; j++) {
+        if (!isRunning) return high;
+        await checkPause();
+        
+        setBarClass(j, 'compare');
+        comparisons++;
+        updateStats();
+        await sleep(animationSpeed / 2);
+        
+        if (array[j] < pivot) {
+          i++;
+          if (i !== j) {
+            swapBars(i, j);
+            swaps++;
+            updateStats();
+            await sleep(animationSpeed);
+          }
+          setBarClass(i, 'sorted');
+        }
+        setBarClass(j, 'default');
+      }
+      
+      swapBars(i + 1, high);
+      swaps++;
+      updateStats();
+      await sleep(animationSpeed);
+      
+      setBarClass(high, 'default');
+      setBarClass(i + 1, 'sorted');
+      
+      return i + 1;
+    }
+    
+    async function mergeSort(left, right) {
+      if (left < right) {
+        let mid = Math.floor((left + right) / 2);
+        
+        await mergeSort(left, mid);
+        await mergeSort(mid + 1, right);
+        await merge(left, mid, right);
+      }
+    }
+    
+    async function merge(left, mid, right) {
+      if (!isRunning) return;
+      
+      updateStepInfo('Merging subarrays from ' + left + ' to ' + right);
+      
+      let n1 = mid - left + 1;
+      let n2 = right - mid;
+      
+      let L = new Array(n1);
+      let R = new Array(n2);
+      
+      for (let i = 0; i < n1; i++) {
+        L[i] = array[left + i];
+        setBarClass(left + i, 'compare');
+      }
+      for (let j = 0; j < n2; j++) {
+        R[j] = array[mid + 1 + j];
+        setBarClass(mid + 1 + j, 'pivot');
+      }
+      
+      await sleep(animationSpeed);
+      
+      let i = 0, j = 0, k = left;
+      
+      while (i < n1 && j < n2) {
+        if (!isRunning) return;
+        await checkPause();
+        
+        comparisons++;
+        updateStats();
+        
+        if (L[i] <= R[j]) {
+          array[k] = L[i];
+          updateBar(k, L[i], 'swap');
+          i++;
+        } else {
+          array[k] = R[j];
+          updateBar(k, R[j], 'swap');
+          j++;
+        }
+        swaps++;
+        updateStats();
+        await sleep(animationSpeed);
+        setBarClass(k, 'sorted');
+        k++;
+      }
+      
+      while (i < n1) {
+        if (!isRunning) return;
+        array[k] = L[i];
+        updateBar(k, L[i], 'sorted');
+        i++;
+        k++;
+        await sleep(animationSpeed / 2);
+      }
+      
+      while (j < n2) {
+        if (!isRunning) return;
+        array[k] = R[j];
+        updateBar(k, R[j], 'sorted');
+        j++;
+        k++;
+        await sleep(animationSpeed / 2);
+      }
+      
+      // Mark range as sorted
+      for (let idx = left; idx <= right; idx++) {
+        setBarClass(idx, 'sorted');
+      }
+    }
+    
+    // Initialize on load
+    init();
+  ]]></script>
+</svg>
