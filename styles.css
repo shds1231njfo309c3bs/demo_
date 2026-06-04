@@ -339,6 +339,11 @@ main {
   align-items: start;
 }
 
+.featured-column {
+  display: grid;
+  gap: 16px;
+}
+
 .featured-card,
 .comparison-grid .result-card {
   background: rgba(251, 252, 249, 0.82);
@@ -353,6 +358,23 @@ main {
 
 .featured-card .card-body {
   padding: 18px;
+}
+
+.scaled-output-note {
+  padding: 16px 18px;
+  background:
+    linear-gradient(90deg, rgba(0, 95, 115, 0.08), rgba(251, 252, 249, 0.72)),
+    rgba(251, 252, 249, 0.76);
+  border: 1px solid rgba(0, 95, 115, 0.2);
+  border-left: 4px solid var(--scaled);
+  border-radius: var(--radius);
+}
+
+.scaled-output-note p {
+  margin: 0;
+  color: #43504c;
+  font-size: 15px;
+  line-height: 1.5;
 }
 
 .comparison-grid {
